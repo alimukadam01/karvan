@@ -1,19 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Navbar.css'
 import logo from '../assets/logo.png'
 import Button from '../button/Button'
+import { Link } from 'react-router-dom'
 
 export const Navbar = () => {
+
+  const [menu, setMenu] = useState("home")
+
   return (
     <div className="navbar-layout-auto">
-        <div className='karvan-logo'>
-          <img src={logo}/>
-        </div>
-        <div className='buttons-container'>
-          <Button text="About Us" className="about-us"/>
-          <Button text="Products" className="products"/>
-          <Button text="Contact Us" className="contact-us"/>
-        </div>
+      <div className='karvan-logo'>
+        <img src={logo} alt='/'/>
+      </div>
+      
+      <div>
+        <ul className='buttons-container'>
+          <li onClick={()=>{setMenu("about-us")}}><Link to="/about-us"><Button text="About Us" className="nav-button"/></Link></li>
+          <li onClick={()=>{setMenu("products")}}><Link to="/products"><Button text="Products" className="nav-button"/></Link></li>
+          <li onClick={()=>{setMenu("contact-us")}}><Link to="/contact-us"><Button text="Contact Us" className="nav-button"/></Link></li>
+          <li onClick={()=>{setMenu("cart")}}><Link to="/cart"><Button text="Cart" className="nav-button"/></Link></li>
+        </ul>
+      </div>
     </div>
   )
 }

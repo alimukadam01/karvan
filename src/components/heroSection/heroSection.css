@@ -1,7 +1,30 @@
 
+.hero-section{
+    width: 100vw;
+    height: 850px;
+    overflow: hidden;
+    position: relative;
+}
+
 .hero-image{
-position: absolute;
-height: 851px;
-left: 0px;
-top: 0px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: -1;
+}
+
+.hero-text{
+    display: flex;
+    margin-left: 50vw;
+    margin-top: 36vh;
+
+    font-weight: 700;
+    font-size: 86px;
+    line-height: 129px;
+    text-align: right;
+    color: #8C24C7;
+
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.59);
 }
