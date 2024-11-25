@@ -1,5 +1,6 @@
 .batch-display-container{
-    margin: 40px 20px
+    margin: 40px 20px;
+    outline: 2px solid red
 }
 
 .batch-display-container h1{
