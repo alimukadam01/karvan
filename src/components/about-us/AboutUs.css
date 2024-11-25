@@ -2,18 +2,31 @@
     width: 100vw;
     display: flex;
     flex-direction: row;
-    padding: 0 20px;
-    justify-content: space-between;
+    margin: 40px 20px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.about-us-container h1{
+    font-size: 36px;
+    font-weight: 600;
+    margin: 0 0;
+}
+
+.about-us-container p{
+    font-size: 28px;
+    margin: 0 0 20px;
 }
 
 .about-us-text{
-    max-width: 750px;
+    max-width: 850px;
     font-size: 28px;
+    margin-right: 20px;
 }
 
 .about-us-image-container{
-    width: 620px;
-    height: 660px;
+    width: 420px;
+    height: 510px;
     position: relative;
     overflow: hidden;
     border-radius: 20px;
