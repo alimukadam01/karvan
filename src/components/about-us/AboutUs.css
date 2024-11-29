@@ -1,7 +1,6 @@
 .about-us-container{
     width: 100vw;
     display: flex;
-    flex-direction: row;
     margin: 40px 20px;
     justify-content: space-around;
     align-items: center;

@@ -1,9 +1,21 @@
+.navbar-customized{
+    margin: 0 20px;
+    z-index: 10;
+    position: absolute;
+    width: 100%;
+    justify-content: space-between; 
+    align-items: center;  
+}
+
+.container-fluid{
+    margin: 0;
+}
+
 .navbar-layout-auto{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0px 20px;
-    gap: 16px;
     height: 80px;
     width: 100vw;
     position: absolute;
@@ -14,14 +26,11 @@
 /* Karvan logo 1 */
 .karvan-logo{
     width: auto;
-    height: 100%;
-    display: flex;
-    align-items: center;
+    height: 100px;
 }
 
 .buttons-container{
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     list-style: none;    
