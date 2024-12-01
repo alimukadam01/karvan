@@ -1,12 +1,8 @@
-
-.hero-section{
-    width: 100vw;
-    height: 850px;
+#hero-section-container{
+    padding: 0;
+    height: 750px;
     overflow: hidden;
     position: relative;
-    top: 0;
-    left: 0;
-    outline: 2px solid red;
 }
 
 .hero-image{
@@ -20,8 +16,9 @@
 
 .hero-text{
     display: flex;
-    margin-left: 50vw;
-    margin-top: 36vh;
+    position: relative;
+    top: 30%;
+    left: 52%;
 
     font-weight: 700;
     font-size: 86px;

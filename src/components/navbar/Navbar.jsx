@@ -10,12 +10,12 @@ export const Navbar = () => {
 
   return (
     <div className='navbar navbar-customized' >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="#">
           <img className='karvan-logo' src={logo} alt=""/>
         </a>
 
-        <div>
+        <div class>
           <ul className='buttons-container'>
             <li onClick={()=>{setMenu("about-us")}}><Link to="/about-us"><Button text="About Us" className="nav-button"/></Link></li>
             <li onClick={()=>{setMenu("products")}}><Link to="/products"><Button text="Products" className="nav-button"/></Link></li>

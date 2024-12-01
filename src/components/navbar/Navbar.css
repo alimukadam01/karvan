@@ -1,14 +1,15 @@
 .navbar-customized{
-    margin: 0 20px;
+    width: 100%;
+    padding: 0;
     z-index: 10;
     position: absolute;
-    width: 100%;
     justify-content: space-between; 
     align-items: center;  
 }
 
 .container-fluid{
     margin: 0;
+    padding: 0 20px;
 }
 
 .navbar-layout-auto{
@@ -37,8 +38,6 @@
     gap: 40px;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    outline: 2px solid red;
 }
 
 .nav-button{
@@ -46,7 +45,6 @@
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
-    line-height: 36px;
 
     /* identical to box height */
     color: #FFFFFF;
