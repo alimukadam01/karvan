@@ -3,7 +3,7 @@ import '../batchDisplay/BatchDisplay.css'
 
 function BatchDisplay(props) {
   return (
-    <div className='batch-display-container'>
+    <div className='container-fluid' id='batch-display-container'>
       <h2>{props.batch_no}</h2>
       <h1>{props.name}</h1>
       <div className='batch-images-container'>

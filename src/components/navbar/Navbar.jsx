@@ -11,7 +11,7 @@ export const Navbar = () => {
   return (
     <div className='navbar navbar-customized' >
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="/">
           <img className='karvan-logo' src={logo} alt=""/>
         </a>
 

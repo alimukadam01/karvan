@@ -3,7 +3,7 @@ import React from 'react';
 
 function ProductDisplay(props) {
   return (
-    <div className='product-display-container'>
+    <div className='container-fluid' id='product-display-container'>
         {props.products.map((product, index) => (
             <div className='product-container'>
                 <img src={product.image} alt='/'/>

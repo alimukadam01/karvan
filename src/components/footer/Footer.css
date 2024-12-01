@@ -5,7 +5,11 @@
     flex-direction: column;
     color: white;
     padding: 20px;
-    outline: 2px solid red;
+}
+
+.footer-container img{
+    height: 120px;
+    width: auto;
 }
 
 .footer-columns{
@@ -63,11 +67,12 @@
     all: unset;
     background-color: rgba(255, 255, 255, 0.2);
     margin-bottom: 10px;
-    height: 36px;
+    height: 52px;
     padding: 8px 12px;
     border-radius: 10px;
     width: 100%;
     max-width: 350px;
+    box-sizing: border-box;
 }
 
 .footer-col-03 textarea{
@@ -78,6 +83,8 @@
     border-radius: 10px;
     width: 100%;
     max-width: 350px;
+    box-sizing: border-box;
+
 }
 
 .footer-col-03 button{

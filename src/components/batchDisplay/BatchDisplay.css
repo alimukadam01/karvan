@@ -1,16 +1,15 @@
-.batch-display-container{
-    margin: 40px 20px;
-    outline: 2px solid red
+#batch-display-container{
+    padding: 40px 0 0 20px;
 }
 
-.batch-display-container h1{
+#batch-display-container h1{
     margin: 0 0 10px;
     font-size: 86px;
     font-weight: 600;
     line-height: 1;
 }
 
-.batch-display-container h2{
+#batch-display-container h2{
     margin: 0;
     font-size: 36px;
     font-weight: 600;
@@ -18,7 +17,6 @@
 
 .batch-images-container{
     display: flex;
-    width: 100vw;
     align-items: center;
     overflow-x: auto;
     scrollbar-width: none;

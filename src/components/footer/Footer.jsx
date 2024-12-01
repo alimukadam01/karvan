@@ -1,13 +1,13 @@
 import React from 'react'
 import './Footer.css'
+import logoMono from '../assets/logo-mono.png'
 
 function Footer() {
   return (
-    <div className='footer-container'>
-        <div>
-            karvan logo
+    <div className='footer-container container-fluid'>
+        <div className='footer-logo-container'>
+            <img src={logoMono} alt='/'/>
         </div>
-
         <div className='footer-columns'>
             <div className='footer-col-01'>
                 <div className='footer-links'>
