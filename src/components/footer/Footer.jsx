@@ -10,14 +10,16 @@ function Footer() {
         </div>
         <div className='footer-columns'>
             <div className='footer-col-01'>
-                <div className='footer-links'>
-                    <h2>Customer Support</h2>
-                    <a>Contact Us</a>
-                    <a>Return/Exchange Policy</a>
-                    <a>Shipping Policy</a>
-                    <a>Privacy Policy</a>
-                </div>
                 <div>
+                    <h2>Customer Support</h2>
+                    <div className='footer-links'>
+                        <a href='#'>Contact Us</a>
+                        <a href='#'>Return/Exchange Policy</a>
+                        <a href='#'>Shipping Policy</a>
+                        <a href='#'>Privacy Policy</a>
+                    </div>
+                </div>
+                <div> 
                     <h2>Thankyou for shopping with us!</h2>
                     <p>we can't wait to see how you style your karvan favorites!</p>
                 </div>
