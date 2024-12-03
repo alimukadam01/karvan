@@ -13,69 +13,80 @@ export const batch01_images = [
 
 export const batch01_products = [
     {
+        "id": 1,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L",],
         "image": ioym01
     },
     {
+        "id": 2,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
     {
+        "id": 3,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
     {
+        "id": 4,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
     {
+        "id": 5,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
     {
+        "id": 6,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
     {
+        "id": 7,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
     {
+        "id": 8,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
     {
+        "id": 9,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
     {
+        "id": 10,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
     {
+        "id": 11,
         "name": "Isolation Of Your Mind",
         "price": 3200,
-        "sizes": "S M L XL",
+        "sizes": ["S", "M", "L", "XL"],
         "image": ioym01
     },
 ]
