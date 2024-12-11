@@ -17,7 +17,6 @@ const HomePage = () => {
       <BatchDisplay batch_no="BATCH-001" name="ISOLATION OF YOUR MIND" images={batch01_images}/>
       <ProductDisplay products={batch01_products}/>
       <Footer/> 
-      <h1>Hello, Mr.Mukadam :)</h1>
     </div>
   )
 }

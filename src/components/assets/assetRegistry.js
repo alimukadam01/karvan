@@ -9,6 +9,10 @@ export const batch01_images = [
     batch01ImageTwo,
     batch01ImageFour,
     batch01ImageThree,
+    batch01ImageOne,
+    batch01ImageTwo,
+    batch01ImageFour,
+    batch01ImageThree,
 ]
 
 export const batch01_products = [
@@ -17,76 +21,76 @@ export const batch01_products = [
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L",],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 2,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 3,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 4,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 5,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 6,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 7,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 8,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 9,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 10,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
     {
         "id": 11,
         "name": "Isolation Of Your Mind",
         "price": 3200,
         "sizes": ["S", "M", "L", "XL"],
-        "image": ioym01
+        "images": [ioym01]
     },
 ]
