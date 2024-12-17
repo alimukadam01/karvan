@@ -1,7 +1,10 @@
+h4{
+    margin-bottom: 16px;
+}
+
 .product-detail-container{
     display: flex;
     padding-top: 100px;
-    background-color: #242424;
     color: white;
     gap: 20px;
 }
@@ -107,10 +110,11 @@
     margin: 0;
 }
 
-.size-quantity-container{
+.size-quantity-purchase-container{
+    margin: 20px 0;
     display: flex;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .size-title{
@@ -128,9 +132,19 @@
 }
 
 .size-button,
-.quantity-button,
-.add-to-cart-btn,
+.quantity-button{
+    text-decoration: none;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 4px;
+    color: white;
+    padding: 4px 12px;
+    transition: ease-in-out 0.15s;
+}
+
+.purchase-btn,
 .like-btn{
+    flex: 1;
     text-decoration: none;
     background-color: transparent;
     border: 1px solid white;
@@ -149,10 +163,6 @@
     background-color: #8C24C7;
     border: 1px solid #8C24C7;
     color: white;
-}
-
-.quantity-container{
-    margin-top: 20px;
 }
 
 .quantity-component{
@@ -175,10 +185,24 @@
     margin: 0;
 }
 
+.btn-text{
+    margin: 0;
+}
+
 .purchase-container{
-    margin-top: 20px;
+    max-width: 350px;
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.adc-and-like-btns{
+    display: flex;
+    gap: 12px;
+}
+
+.bin-container{
+    display: flex;
 }
 
 .purchase-container h6{
@@ -190,8 +214,8 @@
     background-color: #242424;
 }
 
-.add-to-cart-btn:hover,
-.add-to-cart-btn:active{
+.purchase-btn:hover,
+.purchase-btn:active{
     background-color: #8C24C7;
     border: 1px solid #8C24C7;
 }

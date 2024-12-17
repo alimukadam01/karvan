@@ -1,10 +1,15 @@
 .footer-container{
     margin-top: 120px;
-    background-color: #242424;
     display: flex;
     flex-direction: column;
-    color: white;
+    background-color: #8C24C7;
     padding: 20px;
+    color: white;
+}
+
+.footer-container input::placeholder{
+    color: white;
+    opacity: 0.5;
 }
 
 .footer-container img{
@@ -50,7 +55,7 @@
 
 .footer-links a:hover,
 .footer-links a:active{
-    color: #8C24C7
+    color: #242424
 }
 
 .footer-col-02{
@@ -78,6 +83,7 @@
 .footer-col-03 input{
     all: unset;
     background-color: rgba(255, 255, 255, 0.2);
+    color: white;
     margin-bottom: 10px;
     height: 52px;
     padding: 8px 12px;
@@ -90,20 +96,30 @@
 .footer-col-03 textarea{
     all: unset;
     background-color: rgba(255, 255, 255, 0.2);
+    color: white;
     margin-bottom: 10px;
     padding: 8px 12px;
     border-radius: 10px;
     width: 100%;
     max-width: 350px;
     box-sizing: border-box;
+}
 
+.footer-col-03 textarea::placeholder{
+    color: white;
+    opacity: 0.5;
 }
 
 .footer-col-03 button{
     all: unset;
-    background-color: #9823D8;
+    background-color: rgba(255, 255, 255, 0.2);
     padding: 8px 12px;
     border-radius: 10px;
     text-align: center;
     width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+.footer-col-03 button:hover{
+    background-color: #242424;
 }
