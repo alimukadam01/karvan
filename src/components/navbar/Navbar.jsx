@@ -15,7 +15,7 @@ export const Navbar = () => {
           <img className='karvan-logo' src={logo} alt=""/>
         </a>
 
-        <div class>
+        <div>
           <ul className='buttons-container'>
             <li onClick={()=>{setMenu("about-us")}}><Link to="/about-us"><Button text="About Us" className="nav-button"/></Link></li>
             <li onClick={()=>{setMenu("products")}}><Link to="/products"><Button text="Products" className="nav-button"/></Link></li>

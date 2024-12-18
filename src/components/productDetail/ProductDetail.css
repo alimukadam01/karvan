@@ -9,11 +9,27 @@ h4{
     gap: 20px;
 }
 
+.left-section{
+    display: flex;
+    flex: 0 0 620px;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    height: 650px;
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.right-section{
+    display: flex;
+    flex: 2;
+    overflow-y: auto;
+    padding-top: 20px;
+}
+
 .product-images-carousel{
     display: flex;
     flex-direction: column;
-    width: 100px;
-    height: 650px;
     gap: 20px;
     overflow-y: auto;
     border-radius: 8px;
@@ -52,10 +68,6 @@ h4{
     height: 100%;
     width: 100%;
     border-radius: inherit;
-}
-
-.product-detail{
-    flex: 1;
 }
 
 .product-detail hr{
@@ -223,4 +235,5 @@ h4{
 .like-btn:hover,
 .like-btn:active{
     background-color: red;
+    border: 1px solid red;
 }

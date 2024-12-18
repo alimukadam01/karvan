@@ -1,6 +1,7 @@
 import './ProductDisplay.css';
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Product({product}) {
     const [size, setSize] = useState(product.sizes[0]);
@@ -10,9 +11,18 @@ function Product({product}) {
         setSize(size);
     }
 
+    const navigate = useNavigate()
+    const goToProductDetail = () => {
+        navigate('products/', {
+            state: {
+                product
+            }
+        })
+    }
+
     return (
         <div className='product-container'>
-                <img src={product.images[0]} alt='/'/>
+                <img src={product.images[0]} alt='/' onClick={ goToProductDetail }/>
                 <div className='product-details'>
                     <h3>{product.name}</h3>
                     <div className='product-sizes'>
@@ -33,12 +43,6 @@ function Product({product}) {
 }
 
 function ProductDisplay(props) {
-    const [size, setSize] = useState("S");
-
-    const selectSize = (size) =>{
-        setSize(size);
-    }
-
   return (
     <div className='container-fluid' id='product-display-container'>
         {props.products.map((product, index) => (
@@ -48,4 +52,4 @@ function ProductDisplay(props) {
   )
 }
 
-export default ProductDisplay
+export default ProductDisplay;

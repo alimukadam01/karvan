@@ -22,6 +22,10 @@
     object-position: center;
 }
 
+.product-container img:hover{
+    cursor: pointer;
+}
+
 .product-sizes{
     display: flex;
     justify-content: center;
