@@ -1,18 +1,61 @@
 import React from 'react'
 import './ProductDetail.css'
 import { useState } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { fetchProductDetail } from '../../services/api'
+
 
 function ProductDetail() {
 
   const location = useLocation()
-  const product = location.state.product || {}
-  
+  const product_id = location.state.product_id || null
+  const batch_id = location.state.batch_id || null
+
+  const [product, setProduct] = useState({
+    "sizes" : [],
+    "images": []
+  })
+
   const options = product.sizes
-  const [size, setSize] = useState(options[0]);
+  const [size, setSize] = useState(null);
   const selectSize = (size) =>{
     setSize(size);
   }
+
+  const [image, setImage] = useState(null);
+  const selectImage = (image) =>{
+    setImage(image);
+  }
+
+  useEffect(()=>{
+    const getProductDetail = async (batch_id, product_id)=>{
+      try{
+        const data = await fetchProductDetail(batch_id, product_id)
+        setProduct(data);
+      }catch(error){
+        console.log("Error fetching product", error)
+      }
+    }
+    
+    getProductDetail(batch_id, product_id)
+  }, [batch_id, product_id])
+
+  useEffect(()=>{
+    const updateSizeImage = ()=>{
+      if (product.sizes.length > 0 && size === null){
+        setSize(product.sizes[0].size)
+      }
+      
+      if (product.images.length > 0 && image === null){
+        setImage(product.images[0].image)
+      }
+    }
+
+    updateSizeImage();
+  }, [product])
+  
+  
 
   const [quantity, setQuantity] = useState(0);
   const increaseQuantity = () =>{
@@ -20,11 +63,6 @@ function ProductDetail() {
   }
   const decreaseQuantity = () =>{
     setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : 0)); // Increment by 1
-  }
-
-  const [image, setImage] = useState(product.images[0]);
-  const selectImage = (image) =>{
-    setImage(image);
   }
 
   const renderStars = (rating) => {
@@ -44,8 +82,6 @@ function ProductDetail() {
 
     return stars;
   }
-
-
   
   return (
     <div>
@@ -53,10 +89,10 @@ function ProductDetail() {
         <div className="left-section">
           <div className='product-images-carousel'>
             {product.images.map((selectedImage, index)=>(
-              <div className={`carousel-image ${selectedImage === image ? "selected" : ""}`}>
-                <img
-                  onClick={()=>selectImage(selectedImage)} 
-                  src={selectedImage} alt='/'
+              <div className={`carousel-image ${selectedImage.image === image ? "selected" : ""}`}>
+                <img key={selectedImage.id}
+                  onClick={()=>selectImage(selectedImage.image)} 
+                  src={selectedImage.image} alt='/'
                 />
               </div>
             ))}
@@ -72,31 +108,24 @@ function ProductDetail() {
             <div className='title-container'>
               <div className='product-title'>
                 <p>From BATCH-00{ product.batch }</p>
-                <h1>{ product.name.toUpperCase() }</h1>
+                <h1>{ product.name? product.name.toUpperCase(): "" }</h1>
               </div>
           
               <div className='product-rating'>
                 {renderStars(product.rating)}
-                <a href='#'>150 Reviews</a>
+                <a href='#'>{ product.reviews } Reviews</a>
               </div>
             </div>
           
             <hr/>
           
             <div className='product-description'>
-              The "Isolation of Your Mind" hoodie encapsulates the essence of introspection and individuality. 
-              The design features a striking visual representation of a serene, solitary figure surrounded by abstract 
-              patterns symbolizing the complexity of thoughts. Muted tones and a minimalist aesthetic evoke a sense of 
-              calm and self-reflection, while bold typography reinforces the theme of mental solitude.
-              <br/><br/>
-              Crafted with premium-quality fabric, this hoodie offers both comfort and style, making it perfect for 
-              those who embrace their unique inner worlds. Whether you're seeking a cozy companion for quiet moments or 
-              a statement piece for thoughtful expression, this hoodie is a wearable work of art.
+              { product.desc }
             </div>
             
-            <h1 id='price-tag'>PKR {product.price}</h1>
+            <h1 id='price-tag'>PKR { product.price }</h1>
             <p>
-              {`${product.availability ? "In Stock": "Out of Stock"}`}
+              {`${ product.is_available ? "In Stock": "Out of Stock" }`}
             </p>
             
             <div className="size-quantity-purchase-container">
@@ -107,13 +136,13 @@ function ProductDetail() {
                 </div>
 
                 <div className="sizes-container">
-                  {options.map((option, index)=>(
+                  { options.map((option, index)=>(
                     <button 
-                      key={index}
-                      className={`size-button ${option === size ? "selected" : ""}`}
-                      onClick={()=>{selectSize(option)}}
-                    ><p className='btn-text'>{option}</p></button>
-                  ))}
+                      key={ index }
+                      className={`size-button ${option.size === size ? "selected" : ""}`}
+                      onClick={()=>{selectSize(option.size)}}
+                    ><p className='btn-text'>{option.size}</p></button>
+                  )) }
                 </div>
               </div>
               
@@ -122,12 +151,12 @@ function ProductDetail() {
                 <div className="quantity-component">
                   <button 
                     className='quantity-button'
-                    onClick={decreaseQuantity}
+                    onClick={ decreaseQuantity }
                   >-</button>
-                    <p id='quantity'>{quantity}</p>
+                    <p id='quantity'>{ quantity }</p>
                   <button 
                     className='quantity-button'
-                    onClick={increaseQuantity}  
+                    onClick={ increaseQuantity }  
                   >+</button>
                 </div>
               </div>

@@ -23,7 +23,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L",],
         "images": batch01_images,
         "rating": 3.5,
-        "availability": true
+        "availability": true,
+        "reviews": 430
     },
     {
         "id": 2,
@@ -33,7 +34,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 4.5,
-        "availability": true
+        "availability": true,
+        "reviews": 213
     },
     {
         "id": 3,
@@ -43,7 +45,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 5,
-        "availability": false
+        "availability": false,
+        "reviews": 232
     },
     {
         "id": 4,
@@ -53,7 +56,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 2.5,
-        "availability": true
+        "availability": true,
+        "reviews": 420
     },
     {
         "id": 5,
@@ -63,7 +67,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 3.5,
-        "availability": true
+        "availability": true,
+        "reviews": 634
     },
     {
         "id": 6,
@@ -73,7 +78,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 3.5,
-        "availability": true
+        "availability": true,
+        "reviews": 232
     },
     {
         "id": 7,
@@ -83,7 +89,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 3.5,
-        "availability": true
+        "availability": true,
+        "reviews": 321
     },
     {
         "id": 8,
@@ -93,7 +100,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 1.5,
-        "availability": true
+        "availability": true,
+        "reviews": 213
     },
     {
         "id": 9,
@@ -103,7 +111,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 3.5,
-        "availability": true
+        "availability": true,
+        "reviews": 123
     },
     {
         "id": 10,
@@ -113,7 +122,8 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 3.5,
-        "availability": true
+        "availability": true,
+        "reviews": 953
     },
     {
         "id": 11,
@@ -123,6 +133,7 @@ export const batch01_products = [
         "sizes": ["S", "M", "L", "XL"],
         "images": batch01_images,
         "rating": 3.5,
-        "availability": true
+        "availability": true,
+        "reviews": 215
     },
 ]
