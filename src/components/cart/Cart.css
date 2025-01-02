@@ -1,9 +1,11 @@
 .cart-and-summary-container{
     padding: 120px 20px 0 20px;
+    gap: 48px;
     display: flex;
     width: auto;
     color: white;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
 .order-summary{
@@ -15,6 +17,7 @@
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    box-sizing: content-box;
 }
 
 .order-summary h4{
@@ -64,11 +67,101 @@
     flex: 1;
 }
 
-.table-customized {
+.all-table {
+    border-spacing: 0px 20px;
+    border-collapse: separate;
+    font-size: 24px;
+}
+
+.all-table thead{
+    width: 100%;
+}
+
+.cart-product-image{
+    width: 100px;
+    height: 133.33px;
+    border-radius: 5px;
+    object-position: center;
+    object-fit: cover;
+}
+
+.all-table img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+}
+
+.all-table thead tr {
+    background-color: transparent;
+    vertical-align: middle;
     color: white;
 }
 
-.table-row{
+.all-table th, .all-table td{
+    font-family: 'Poppins';
+    font-size: 24px;
+    font-weight: normal;
+    color: white;
+
+    padding: 8px 16px;
+    vertical-align: middle;
+    text-align: center;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+.all-table tbody tr {
+    background-color: transparent;
+}
+
+.all-table td:first-child, th:first-child {
+    border-left: 1px solid white;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.all-table td:last-child, th:last-child {
+    border-right: 1px solid white;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.tblBtn,
+.tblBtn:focus {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #ff0000;
+}
+
+.cart-product-container{
     display: flex;
-    justify-content: space-between;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+}
+
+.cart-quantity-component{
+    display: flex;
+    justify-content: center;
+}
+
+.cart-quantity-btn{
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    font-size: 26px;
+    color: white;
+    padding: 4px 12px;
+}
+
+#cart-item-quantity{
+    padding: 4px 12px;
+    text-align: center;
+    width: 80px;
+    border-radius: 4px;
+    margin: 0;
 }

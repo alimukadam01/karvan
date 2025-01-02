@@ -1,35 +1,76 @@
-import React from 'react'
+import { React, useState } from 'react'
 import './Cart.css'
+import productImage from '../assets/batch-001-01.png'
+
+function CartItem({cartItem}) {
+    const [quantity, setQuantity] = useState(1);
+    const increaseQuantity = () =>{
+        setQuantity((prevQuantity) => prevQuantity + 1); // Increment by 1
+    }
+    const decreaseQuantity = () =>{
+        setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : 0)); // Increment by 1
+    }
+
+    return(
+        <tr>
+            <td>
+                <div className='cart-product-container'>
+                    <div className="cart-product-image">
+                        <img src={productImage}/>
+                    </div>
+                    IOYM Hoodie 01
+                </div>
+            </td>
+            <td>L</td>
+            <td>
+            <div className="cart-quantity-component">
+                <button 
+                    className='cart-quantity-btn'
+                    onClick={ decreaseQuantity }
+                >-</button>
+                    <p id='cart-item-quantity'>{ quantity }</p>
+                <button 
+                    className='cart-quantity-btn'
+                    onClick={ increaseQuantity }  
+                >+</button>
+            </div>
+            </td>
+            <td>3000</td>
+            <td>{3000 * quantity}</td>
+            <td>
+                <button type="button" className="tblBtn">
+                    <i className="fa fa-trash" aria-hidden="true"></i>
+                </button>
+            </td>
+        </tr>
+    )
+}
 
 function Cart() {
+
   return (
     <div className='cart-and-summary-container'>
         <div className="cart-container">
             <h1>Items in your bag</h1>
-            <div className="cart">
-                <div className="table table-customized">
-                    <thead className='table-row'>
-                        <tr className='table-row'>
-                            <th scope="col"></th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Size</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
-
-                    <tr className='table-row'>
-                        <td></td>
-                        <td>Mark</td>
-                        <td>Medium</td>
-                        <td>3000</td>
-                        <td>2</td>
-                        <td>6000</td>
+            <table className="table all-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Size</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th></th>
                     </tr>
-                </div>
-            </div>
+                </thead>
+
+                <tbody>
+                    <CartItem/>
+                    <CartItem/>
+                </tbody>
+            </table>
         </div>
+
         <div className="order-summary">
             <h4>Order Summary</h4>
             <div className="summary-items">

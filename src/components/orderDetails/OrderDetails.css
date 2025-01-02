@@ -1,0 +1,135 @@
+.order-notes-checkout-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 400px;
+}
+
+.order-notes-component{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 12px;
+    background-color: #8C24C7;
+    border-radius: 5px;
+}
+
+.order-notes-component h4{
+    margin: 0;
+}
+
+.order-notes-component textarea{
+    all: unset;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.order-notes-component textarea::placeholder{
+    color: white;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.order-details-checkout-container{
+    padding: 120px 20px 0 20px;
+    display: flex;
+    gap: 48px;
+    color: white;
+    width: auto;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.checkout-container{
+    padding: 8px 10px 16px 10px;
+    background-color: #8C24C7;
+    border-radius: 5px;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    box-sizing: content-box;
+}
+
+.checkout-items{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 4px;
+}
+
+.checkout-product{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.checkout-product-image-details{
+    display: flex;
+    gap: 10px;
+}
+
+.checkout-product-image{
+    width: 100px;
+    height: 133.33px;
+    border-radius: 5px;
+    object-position: center;
+    object-fit: cover;
+}
+
+.checkout-product-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+}
+
+.checkout-product p{
+    margin: 0;
+    font-size: 18px;
+}
+
+.checkout-container button{
+    all: unset;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-align: center;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+.checkout-items hr{
+    margin: 0;
+    border: 1px solid white;
+    opacity: 1;
+}
+
+.checkout-container button:hover{
+    background-color: #242424;
+}
+
+.checkout-container h4{
+    margin: 0;
+}
+
+.order-details-container{
+    display: flex;
+}
+
+.section-title{
+    border-bottom: 2.5px #8C24C7 solid;
+    flex: 1;
+}
+
+.order-details-container h1{
+    font-weight: 400;
+    margin: 0;
+}
