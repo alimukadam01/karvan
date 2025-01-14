@@ -1,16 +1,16 @@
-import React from 'react'
+import { React, useState, useEffect } from 'react'
 import './ProductDetail.css'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { fetchProductDetail } from '../../services/api'
-
+import { addToCart } from '../../services/api'
 
 function ProductDetail() {
 
   const location = useLocation()
+  const navigate = useNavigate()
   const product_id = location.state.product_id || null
   const batch_id = location.state.batch_id || null
+  const cart_id = localStorage.getItem("cart_id")
 
   const [product, setProduct] = useState({
     "sizes" : [],
@@ -55,14 +55,21 @@ function ProductDetail() {
     updateSizeImage();
   }, [product])
   
-  
-
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const increaseQuantity = () =>{
     setQuantity((prevQuantity) => prevQuantity + 1); // Increment by 1
   }
   const decreaseQuantity = () =>{
     setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : 0)); // Increment by 1
+  }
+
+  const handleAtcClick = async ()=>{
+    try{
+      await addToCart(batch_id, product_id, cart_id, quantity, size)
+      navigate('/')
+    }catch(error){
+      console.log(error)
+    }
   }
 
   const renderStars = (rating) => {
@@ -163,7 +170,10 @@ function ProductDetail() {
 
               <div className="purchase-container">
                 <div className='adc-and-like-btns'>
-                  <button className="purchase-btn">
+                  <button 
+                    className="purchase-btn" 
+                    onClick={handleAtcClick}
+                  >
                     <p className='btn-text'>Add to Cart</p>
                   </button>
                   <button className="like-btn">

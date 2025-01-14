@@ -78,10 +78,6 @@
     align-items: center;
 }
 
-.product-details-pricing a:hover{
-    color: #8C24C7;
-}
-
 .product-details-pricing h3{
     margin: 0;
     font-weight: 600;
@@ -90,4 +86,9 @@
 .product-details-pricing a{
     text-decoration: none;
     color: black;
+    cursor: pointer;
+}
+
+.product-details .product-details-pricing a:hover{
+    color: #8C24C7;
 }

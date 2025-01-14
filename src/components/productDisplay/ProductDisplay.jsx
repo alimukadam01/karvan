@@ -3,13 +3,21 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchProductsList } from '../../services/api';
+import { addToCart } from '../../services/api';
 
 function Product({product}) {
+    const sizeMapping = {
+        "S": "Small",
+        "M": "Medium",
+        "L": "Large",
+        "XL": "X-Large"
+    }
+
     const [size, setSize] = useState(product.sizes[0].size);
     const selectSize = (size) =>{
         setSize(size);
     }
-
+    const cart_id = localStorage.getItem("cart_id")
     const navigate = useNavigate()
     const goToProductDetail = () => {
         navigate('products/', {
@@ -20,11 +28,21 @@ function Product({product}) {
         })
     }
 
+    const handleAtcClick = async ()=>{
+        try{
+            await addToCart(product.batch, product.id, cart_id, 1, sizeMapping[size])
+            navigate('/')
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     return (
         <div className='product-container'>
             <img src={product.images[0].image} alt='/' onClick={ goToProductDetail }/>
             <div className='product-details'>
                 <h3>{product.name}</h3>
+
                 <div className='product-sizes'>
                     {product.sizes.map((option, index)=>(
                         <a key={index}
@@ -33,9 +51,10 @@ function Product({product}) {
                         >{option.size}</a>
                     ))}
                 </div>
+
                 <div className='product-details-pricing'>
                     <h3>PKR {product.price}</h3>
-                    <a href='#'>add to cart</a>
+                    <a onClick={ handleAtcClick }>add to cart</a>
                 </div>
             </div>
         </div>

@@ -1,14 +1,39 @@
-import { React, useState } from 'react'
+import { React, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './Cart.css'
 import productImage from '../assets/batch-001-01.png'
+import { fetchCartItems, deleteCartItem, initiateOrder } from '../../services/api';
 
-function CartItem({cartItem}) {
-    const [quantity, setQuantity] = useState(1);
+function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
+
+    const sizeMapping = {
+        "Small": "S",
+        "Medium": "M",
+        "Large": "L",
+        "X-Large": "XL"
+    }
+    
+    const [quantity, setQuantity] = useState(cartItem.quantity)
     const increaseQuantity = () =>{
-        setQuantity((prevQuantity) => prevQuantity + 1); // Increment by 1
+        const newQuantity = quantity + 1
+        setQuantity(newQuantity) // Increment by 1
+        onQuantityChange(cartItem.id, newQuantity)
     }
     const decreaseQuantity = () =>{
-        setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : 0)); // Increment by 1
+        const newQuantity = quantity > 0 ? quantity - 1 : 0
+        setQuantity(newQuantity);
+        onQuantityChange(cartItem.id, newQuantity)
+    }
+
+    const deleteItem = async ()=>{
+        try{
+            const is_deleted = await deleteCartItem(cart_id, cartItem.id)
+            if (is_deleted){
+                onDelete(cartItem.id)
+            }
+        }catch(error){
+            console.log(error)
+        }
     }
 
     return(
@@ -18,10 +43,10 @@ function CartItem({cartItem}) {
                     <div className="cart-product-image">
                         <img src={productImage}/>
                     </div>
-                    IOYM Hoodie 01
+                    {cartItem.product.name}
                 </div>
             </td>
-            <td>L</td>
+            <td>{sizeMapping[cartItem.size]}</td>
             <td>
             <div className="cart-quantity-component">
                 <button 
@@ -35,10 +60,14 @@ function CartItem({cartItem}) {
                 >+</button>
             </div>
             </td>
-            <td>3000</td>
-            <td>{3000 * quantity}</td>
+            <td>{cartItem.product.price}</td>
+            <td>{cartItem.product.price * quantity}</td>
             <td>
-                <button type="button" className="tblBtn">
+                <button 
+                    type="button" 
+                    className="tblBtn"
+                    onClick={ deleteItem }
+                >
                     <i className="fa fa-trash" aria-hidden="true"></i>
                 </button>
             </td>
@@ -47,6 +76,71 @@ function CartItem({cartItem}) {
 }
 
 function Cart() {
+
+    const [cart_id, setCartId] = useState(localStorage.getItem("cart_id"))
+    const [cartItems, setCartItems] = useState([])
+    const [subTotal, setSubTotal] = useState(0)
+    const navigate = useNavigate()
+
+
+    useEffect(()=>{
+        const getCartItems = async (cart_id)=>{
+            try{
+                const cart_items = await fetchCartItems(cart_id)
+                setCartItems(cart_items)
+            }catch(error){
+                console.log(error)
+            }
+        }
+
+        getCartItems(cart_id)
+    }, [cart_id])
+
+    const handleDelete = (item_id)=>{
+        setCartItems((prevCartItems) =>
+            prevCartItems.filter((item) => item.id !== item_id)
+        )
+    }
+
+    const calcSubTotal = (cartItems)=>{
+        let subTotal = 0
+        for(let item of cartItems){
+            subTotal += item.product.price * item.quantity
+        }
+        return subTotal
+    }
+
+    const getSubTotal = ()=>{
+        setSubTotal(calcSubTotal(cartItems))
+    }
+
+    const handleQuantityChange = (itemId, newQuantity) => {
+        setCartItems((prevCartItems) => 
+            prevCartItems.map((item) =>
+                item.id === itemId ? { ...item, quantity: newQuantity } : item
+            )
+        )
+    }
+
+    const checkout = async ()=>{
+        try{
+            const order_id = await initiateOrder(cart_id)
+            if (order_id){
+                localStorage.removeItem("cart_id")
+                navigate('/checkout/', {
+                    state: {
+                        order_id: order_id
+                    }
+                })
+            }
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        setSubTotal(calcSubTotal(cartItems));
+    }, [cartItems])
 
   return (
     <div className='cart-and-summary-container'>
@@ -65,37 +159,42 @@ function Cart() {
                 </thead>
 
                 <tbody>
-                    <CartItem/>
-                    <CartItem/>
+                    {cartItems.map((cart_item, index)=>(
+                        <CartItem 
+                            key={cart_item.id} 
+                            cartItem={cart_item} 
+                            cart_id={cart_id} 
+                            onQuantityChange={handleQuantityChange} 
+                            onDelete={handleDelete}
+                        />
+                    ))}
                 </tbody>
             </table>
         </div>
-
 
         <div className="order-summary">
             <h4>Order Summary</h4>
             <div className="summary-items">
                 <div className="summary-item">
                     <p>Subtotal</p>
-                    <p>12000</p>
+                    <p>{subTotal}</p>
                 </div>
                 <div className="summary-item">
                     <p>Shipping Cost</p>
-                    <p>250</p>
-                </div>
-                <div className="summary-item">
-                    <p>GST</p>
-                    <p>320</p>
+                    <p>{250}</p>
                 </div>
 
                 <hr/>
                 
                 <div className="summary-item">
                     <p>Grand Total</p>
-                    <p>PKR 12,570</p>
+                    <p>PKR {subTotal + 250}</p>
                 </div>
             </div>
-            <button type='submit'>
+            <button 
+                type='submit'
+                onClick={ checkout }
+            >
                 Proceed to Checkout
             </button>
         </div>
