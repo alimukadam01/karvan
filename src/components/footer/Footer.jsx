@@ -28,6 +28,16 @@ function Footer() {
             <div className='footer-col-02'>
                 <div>
                     <h2>Catch up with us on</h2>
+                    <div className='footer-links'>
+                        <div className="footer-handle">
+                            <i class="fa-brands fa-instagram fa-xl"></i>
+                            <a href="https://www.instagram.com/karvan.pk/">Instagram</a>
+                        </div>
+                        <div className="footer-handle">
+                            <i class="fa-brands fa-facebook fa-xl"></i>
+                            <a href="https://www.facebook.com/profile.php?id=61553389870365/">Facebook</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 

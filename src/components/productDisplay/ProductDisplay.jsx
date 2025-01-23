@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchProductsList } from '../../services/api';
 import { addToCart } from '../../services/api';
+import { showErrorToast, showSuccessToast } from '../../services/utils';
 
 function Product({product}) {
     const sizeMapping = {
@@ -30,9 +31,15 @@ function Product({product}) {
 
     const handleAtcClick = async ()=>{
         try{
-            await addToCart(product.batch, product.id, cart_id, 1, sizeMapping[size])
-            navigate('/')
+            const is_added = await addToCart(product.batch, product.id, cart_id, 1, sizeMapping[size])
+            if (is_added){
+                navigate('/')
+                showSuccessToast("Item added to Cart")
+            }else{
+                showErrorToast("Oops! we ran into an error. Please try again.")
+            }
         }catch(error){
+            showErrorToast("Oops! we ran into an error. Please try again.")
             console.log(error)
         }
     }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './OrderDetails.css'
-import { useNavigate, useLocation } from 'react-router-dom'
-import productImage from '../assets/batch-001-02.png'
-import { fetchBuyerDetails, fetchOrderDetails, finalizeOrder } from '../../services/api'
+import { useNavigate, useLocation, redirect } from 'react-router-dom'
+import { fetchBuyerDetails, fetchCities, fetchOrderDetails, finalizeOrder } from '../../services/api'
+import { showErrorToast, showSuccessToast } from '../../services/utils'
 
 function OrderDetails() {
 
@@ -14,6 +14,7 @@ function OrderDetails() {
     "X-Large": "XL"
   }
 
+  const navigate = useNavigate()
   const location = useLocation()
   const order_id = location.state.order_id || null
   const [order, setOrder] = useState(null)
@@ -34,9 +35,22 @@ function OrderDetails() {
     getOrderDetails();
   }, [order_id])
 
-  // FORM FIELDS
-  
+  useEffect(()=>{
+    
+    const getCities = async ()=>{
+      try{
+        const cities = await fetchCities()
+        if (cities){
+          setCity(cities[0].name)
+        }
+      }catch(error){
+        console.log(error)
+      }
+    }
 
+  }, [])
+
+  // FORM FIELDS
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -62,19 +76,35 @@ function OrderDetails() {
       last_name: buyer.last_name,
       phone: buyer.phone,
       address: buyer.addresses[0]?.address,
+      apt_suite: buyer.addresses[0]?.apt_suite,
       city: buyer.addresses[0]?.city.name,
       alt_phone: buyer.addresses[0]?.phone,
       postal_code: buyer.addresses[0]?.postal_code
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
-      email,
-      ...formData
-    };
-    console.log("Form Submitted:", formData);
+    const updatedFormData = {
+      ...formData,
+      "email": email,
+    }
+    setFormData(updatedFormData)
+    
+    try{
+      const is_finalized = await finalizeOrder(order_id, formData)
+      if (is_finalized){
+        console.log("order finalized")
+        navigate("/")
+        showSuccessToast("Order finalized! Your Karvan outfits are on their way!")
+      }else{
+        showErrorToast("Oops! Something went wrong. Please try again.")
+      }
+    }catch(error){
+      console.log(error)
+      showErrorToast("Oops! Something went wrong. Please try again.")
+    }
+
   }
 
   const validateEmail = (email) => {
@@ -84,8 +114,8 @@ function OrderDetails() {
 
   const [email, setEmail] = useState(null)
   const handleEmailChange = async (e)=>{
-    const email = e.target.value
-    setEmail(email)
+    const value = e.target.value
+    setEmail(value)
 
     if (validateEmail(email)){
       const buyer = await fetchBuyerDetails(email)
@@ -95,11 +125,15 @@ function OrderDetails() {
     }
   }
 
+  const [city, setCity] = useState(null)
+  const handleCityChange = (city) =>{
+    setCity(city)
+  }
 
   return (
     <div className='order-details-checkout-container'>
         <div className='order-details-container'>
-          <form onSubmit={handleSubmit}>
+          <form>
             <div className="form-section">
               <div className='section-title'>
                 <h1>Personal Information</h1>
@@ -118,7 +152,7 @@ function OrderDetails() {
                 <h1>Delivery Information</h1>
               </div>
             
-              <input id='full-row-field' type='text' placeholder='Address'/>
+              <input id='full-row-field' type='text' placeholder='Address' value={formData.address} onChange={handleFieldChange}/>
             
               <div className="fields-container">
                 <input type='text' placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
@@ -180,19 +214,19 @@ function OrderDetails() {
 
               <div className="summary-item">
                   <p>Shipping Cost</p>
-                  <p>250</p>
+                  <p>{order?.address?.city.shipping_charges}</p>
               </div>
 
               <hr/>
               
               <div className="summary-item">
                   <p>Grand Total</p>
-                  <p>PKR {order?.payment.amount}</p>
+                  <p>PKR {order?.payment.amount + (city?.shipping_charges || 0)}</p>
               </div>
             </div>
             
-            <button type='submit'>
-                Confirm Order
+            <button type='submit' onClick={ handleSubmit }>
+              Confirm Order
             </button>
           </div>
         </div>

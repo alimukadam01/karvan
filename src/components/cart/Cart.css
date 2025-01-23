@@ -168,3 +168,8 @@
     border-radius: 4px;
     margin: 0;
 }
+
+.empty-cart-container{
+    padding: 120px 20px 0 20px;
+    color: white;
+}

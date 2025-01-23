@@ -123,3 +123,9 @@
 .footer-col-03 button:hover{
     background-color: #242424;
 }
+
+.footer-handle{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

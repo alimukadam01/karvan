@@ -87,7 +87,11 @@ export const addToCart = async (batch_id, product_id, cart_id, quantity, size)=>
             "quantity": quantity,
             "size": size
         })
-        return res.data
+
+        if (res.status === 200){
+            return true
+        }
+        return false
     }catch (error){
         console.log(error)
     }
@@ -135,11 +139,23 @@ export const initiateOrder = async (cart_id) =>{
     }
 }
 
+export const fetchCities = async () =>{
+    try{
+        const res = await apiClient.get(`cities/`)
+        if (res.status === 200){
+            return res.data
+        }
+        return null
+    }catch(error){
+        console.log(error)
+        return null
+    }
+}
+
 export const fetchOrderDetails = async (order_id) =>{
     try{
         const res = await apiClient.get(`orders/${order_id}/`)
         if (res.status === 200){
-            console.log("data captured by API function")
             return res.data
         }
     }catch(error){
@@ -148,14 +164,15 @@ export const fetchOrderDetails = async (order_id) =>{
     }
 }
 
-export const finalizeOrder = async (order_id) =>{
+export const finalizeOrder = async (order_id, data) =>{
     try{
         const res = await apiClient.post(
-            `orders/${order_id}/finalize_order/`, {}
+            `orders/${order_id}/finalize_order/`,
+            data
         )
 
         if (res.status === 200){
-            return res.data
+            return true
         }else{
             return null
         }
@@ -172,7 +189,7 @@ export const fetchBuyerDetails = async (email) =>{
 
         if (access){
             
-            const res = apiClient.post(
+            const res = await apiClient.post(
                 "buyers/search/",{
                 "email": email
             }, {
@@ -182,7 +199,7 @@ export const fetchBuyerDetails = async (email) =>{
             })
     
             if (res.status === 200){
-                return res.data``
+                return res.data
             }
     
             return null

@@ -21,22 +21,27 @@ function BatchDisplay() {
   }, [])
 
   return (
-    batches.map((batch, index)=>(
-      <div key={batch.id}>
-        <div className='container-fluid' id='batch-display-container'>
-          <h2>BATCH-00{batch.id}</h2>
-          <h1>{batch.title}</h1>
-          <div className='batch-images-container'>
-            {batch.images.map((obj, index) => (
-              <div className='batch-image' key={obj.id}>
-                <img src={obj.image} alt="/" />
+    <div>
+      <section id='products'>
+
+        {batches.map((batch, index)=>(
+          <div key={batch.id}>
+            <div className='container-fluid' id='batch-display-container'>
+              <h2>BATCH-00{batch.id}</h2>
+              <h1>{batch.title}</h1>
+              <div className='batch-images-container'>
+                {batch.images.map((obj, index) => (
+                  <div className='batch-image' key={obj.id}>
+                    <img src={obj.image} alt="/" />
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+            <ProductDisplay batch_id={batch.id}/>
           </div>
-        </div>
-        <ProductDisplay batch_id={batch.id}/>
-      </div>
-    ))
+        ))}
+      </section>
+    </div>
   )
 }
 

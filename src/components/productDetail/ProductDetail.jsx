@@ -3,6 +3,8 @@ import './ProductDetail.css'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { fetchProductDetail } from '../../services/api'
 import { addToCart } from '../../services/api'
+import { showSuccessToast } from '../../services/utils'
+import { showErrorToast } from '../../services/utils'
 
 function ProductDetail() {
 
@@ -65,9 +67,15 @@ function ProductDetail() {
 
   const handleAtcClick = async ()=>{
     try{
-      await addToCart(batch_id, product_id, cart_id, quantity, size)
-      navigate('/')
+      const is_added = await addToCart(batch_id, product_id, cart_id, quantity, size)
+      if (is_added){
+        navigate('/')
+        showSuccessToast("Item added to Cart")
+      }else{
+        showErrorToast("Oops! we ran into an error. Please try again.")
+      }
     }catch(error){
+      showErrorToast("Oops! we ran into an error. Please try again.")
       console.log(error)
     }
   }

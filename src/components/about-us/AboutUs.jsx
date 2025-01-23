@@ -4,7 +4,8 @@ import './AboutUs.css'
 
 function AboutUs() {
   return (
-    <div className='container-fluid' id='about-us-container'>
+    <div>
+      <section id="about-us" className='container-fluid'>
         <div className='about-us-text'>
             <h1>WHERE WE COME FROM</h1>
             <p>
@@ -17,6 +18,7 @@ function AboutUs() {
         <div className='about-us-image-container'>
             <img className='about-us-image' src={aboutus} alt='/'/>
         </div>
+      </section>
     </div>
   )
 }

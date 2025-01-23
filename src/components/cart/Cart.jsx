@@ -82,12 +82,14 @@ function Cart() {
     const [subTotal, setSubTotal] = useState(0)
     const navigate = useNavigate()
 
+    console.log(cartItems)
+
 
     useEffect(()=>{
         const getCartItems = async (cart_id)=>{
             try{
-                const cart_items = await fetchCartItems(cart_id)
-                setCartItems(cart_items)
+                const items = await fetchCartItems(cart_id)
+                setCartItems(items)
             }catch(error){
                 console.log(error)
             }
@@ -141,8 +143,8 @@ function Cart() {
     useEffect(() => {
         setSubTotal(calcSubTotal(cartItems));
     }, [cartItems])
-
-  return (
+    
+    if (cartItems.length != 0){ return(
     <div className='cart-and-summary-container'>
         <div className="cart-container">
             <h1>Items in your bag</h1>
@@ -179,16 +181,12 @@ function Cart() {
                     <p>Subtotal</p>
                     <p>{subTotal}</p>
                 </div>
-                <div className="summary-item">
-                    <p>Shipping Cost</p>
-                    <p>{250}</p>
-                </div>
 
                 <hr/>
                 
                 <div className="summary-item">
                     <p>Grand Total</p>
-                    <p>PKR {subTotal + 250}</p>
+                    <p>PKR {subTotal}</p>
                 </div>
             </div>
             <button 
@@ -200,6 +198,12 @@ function Cart() {
         </div>
     </div>
   )
-}
+} else{
+    return(
+        <div className='empty-cart-container'>
+            <h1>Your cart is empty</h1>
+        </div>
+    ) 
+}}
 
 export default Cart
