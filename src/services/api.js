@@ -106,6 +106,22 @@ export const fetchCartItems = async (cart_id)=>{
     }
 }
 
+export const updateCartItemQuantity = async (cart_id, item_id, quantity)=>{
+    try{
+        const res = await apiClient.put(`cart/${cart_id}/items/${item_id}/`,{
+            "quantity": quantity
+        })
+
+        if (res.status === 200){
+            return true
+        }
+
+        return null
+    }catch (error){
+        console.log(error)
+    }
+}
+
 export const deleteCartItem = async (cart_id, item_id)=>{
     try{
         const res = await apiClient.delete(`cart/${cart_id}/items/${item_id}/`)
@@ -129,10 +145,32 @@ export const initiateOrder = async (cart_id) =>{
 
         if (res.status === 200){
             return res.data.id
-        }else{
-            return null
         }
         
+        return null
+        
+        
+    }catch(error){
+        console.log(error)
+        return null
+    }
+}
+
+export const buyProduct = async (batch_id, product_id, quantity, size) =>{
+    try{
+        const res = await apiClient.post(`batches/${batch_id}/products/${product_id}/buy/`, {
+            "size": size,
+            "quantity": quantity
+        })
+
+        console.log(res)
+
+        if (res.status === 200){
+            return res.data.id
+        }
+
+        return null
+
     }catch(error){
         console.log(error)
         return null

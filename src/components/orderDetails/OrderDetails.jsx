@@ -18,6 +18,19 @@ function OrderDetails() {
   const location = useLocation()
   const order_id = location.state.order_id || null
   const [order, setOrder] = useState(null)
+  const [cities, setCities] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [city, setCity] = useState(null)
+  const handleCityChange = (e)=>{
+    const selectedCity = cities.find(
+      (obj) => obj.name === e.target.value
+    )
+    setCity(selectedCity)
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      city_id: selectedCity.id,
+    }))
+  }
 
   useEffect(()=>{
 
@@ -25,9 +38,8 @@ function OrderDetails() {
       try{
         const data = await fetchOrderDetails(order_id)
         setOrder(data)
-        console.log(order)
       }catch(error){
-        console.log("caught an error")
+        showErrorToast("Oops! we ran into an error. Please load this page again.")
         console.log(error)
       }
     }
@@ -39,14 +51,15 @@ function OrderDetails() {
     
     const getCities = async ()=>{
       try{
-        const cities = await fetchCities()
-        if (cities){
-          setCity(cities[0].name)
+        const res = await fetchCities()
+        if (res){
+          setCities(res)
         }
       }catch(error){
         console.log(error)
       }
     }
+    getCities()
 
   }, [])
 
@@ -57,9 +70,9 @@ function OrderDetails() {
     phone: "",
     address: "",
     apt_suite: "",
-    city: "",
     alt_phone: "",
-    postal_code: ""
+    postal_code: "",
+    notes: ""
   })
 
   const handleFieldChange = (e)=>{
@@ -77,7 +90,7 @@ function OrderDetails() {
       phone: buyer.phone,
       address: buyer.addresses[0]?.address,
       apt_suite: buyer.addresses[0]?.apt_suite,
-      city: buyer.addresses[0]?.city.name,
+      city_id: buyer?.addresses[0]?.city.id,
       alt_phone: buyer.addresses[0]?.phone,
       postal_code: buyer.addresses[0]?.postal_code
     })
@@ -85,16 +98,10 @@ function OrderDetails() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedFormData = {
-      ...formData,
-      "email": email,
-    }
-    setFormData(updatedFormData)
-    
+
     try{
       const is_finalized = await finalizeOrder(order_id, formData)
       if (is_finalized){
-        console.log("order finalized")
         navigate("/")
         showSuccessToast("Order finalized! Your Karvan outfits are on their way!")
       }else{
@@ -104,15 +111,13 @@ function OrderDetails() {
       console.log(error)
       showErrorToast("Oops! Something went wrong. Please try again.")
     }
-
   }
-
+  
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(email)
   }
 
-  const [email, setEmail] = useState(null)
   const handleEmailChange = async (e)=>{
     const value = e.target.value
     setEmail(value)
@@ -123,11 +128,11 @@ function OrderDetails() {
         autoFillForm(buyer)
       }
     }
-  }
 
-  const [city, setCity] = useState(null)
-  const handleCityChange = (city) =>{
-    setCity(city)
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      email: value,
+    }))
   }
 
   return (
@@ -156,7 +161,16 @@ function OrderDetails() {
             
               <div className="fields-container">
                 <input type='text' placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
-                <input type='text' placeholder='City' value={formData.city} onChange={handleFieldChange}/>
+                <select 
+                  name="city" 
+                  onChange={ handleCityChange }
+                  placeholder="Select City"
+                  required
+                >
+                  {cities?.map((obj, index)=>(
+                    <option key={obj.id} value={obj.name}>{obj.name}</option>
+                  ))}
+                </select>
                 <input type='text' placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange}/>
                 <input type='text' placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange}/>
               </div>
@@ -190,7 +204,13 @@ function OrderDetails() {
         <div className="order-notes-checkout-container">
           <div className="order-notes-component">
             <h4>Want us to take special care of something?</h4>
-            <textarea rows={5} cols={20} placeholder='Drop in some order notes here!'/>
+            <textarea 
+              name="notes"
+              rows={5} cols={20} 
+              placeholder='Drop in some order notes here!' 
+              value={formData.notes} 
+              onChange={ handleFieldChange }
+            />
           </div>
 
           <div className="checkout-container">
@@ -214,7 +234,7 @@ function OrderDetails() {
 
               <div className="summary-item">
                   <p>Shipping Cost</p>
-                  <p>{order?.address?.city.shipping_charges}</p>
+                  <p>{city? city.shipping_charges: '-'}</p>
               </div>
 
               <hr/>

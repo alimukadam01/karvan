@@ -2,7 +2,8 @@ import { React, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './Cart.css'
 import productImage from '../assets/batch-001-01.png'
-import { fetchCartItems, deleteCartItem, initiateOrder } from '../../services/api';
+import { fetchCartItems, deleteCartItem, initiateOrder, updateCartItemQuantity } from '../../services/api';
+import { showErrorToast } from '../../services/utils';
 
 function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
 
@@ -14,15 +15,32 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
     }
     
     const [quantity, setQuantity] = useState(cartItem.quantity)
-    const increaseQuantity = () =>{
+    const increaseQuantity = async () =>{
         const newQuantity = quantity + 1
-        setQuantity(newQuantity) // Increment by 1
-        onQuantityChange(cartItem.id, newQuantity)
+        try{
+            const is_updated = await updateCartItemQuantity(cart_id, cartItem.id, newQuantity)
+            if (is_updated){
+                setQuantity(newQuantity) // Increment by 1
+                onQuantityChange(cartItem.id, newQuantity)
+            }
+        }catch(error){
+            showErrorToast("Oops! we ran into an error. Please try again.")
+            console.log(error)
+        }
     }
-    const decreaseQuantity = () =>{
+
+    const decreaseQuantity = async () =>{
         const newQuantity = quantity > 0 ? quantity - 1 : 0
-        setQuantity(newQuantity);
-        onQuantityChange(cartItem.id, newQuantity)
+        try{
+            const is_updated = await updateCartItemQuantity(cart_id, cartItem.id, newQuantity)
+            if (is_updated){
+                setQuantity(newQuantity) // Increment by 1
+                onQuantityChange(cartItem.id, newQuantity)
+            }
+        }catch(error){
+            showErrorToast("Oops! we ran into an error. Please try again.")
+            console.log(error)
+        }
     }
 
     const deleteItem = async ()=>{
@@ -81,9 +99,6 @@ function Cart() {
     const [cartItems, setCartItems] = useState([])
     const [subTotal, setSubTotal] = useState(0)
     const navigate = useNavigate()
-
-    console.log(cartItems)
-
 
     useEffect(()=>{
         const getCartItems = async (cart_id)=>{
@@ -145,65 +160,64 @@ function Cart() {
     }, [cartItems])
     
     if (cartItems.length != 0){ return(
-    <div className='cart-and-summary-container'>
-        <div className="cart-container">
-            <h1>Items in your bag</h1>
-            <table className="table all-table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Size</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                        <th></th>
-                    </tr>
-                </thead>
+        <div className='cart-and-summary-container'>
+            <div className="cart-container">
+                <h1>Items in your bag</h1>
+                <table className="table all-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Size</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    {cartItems.map((cart_item, index)=>(
-                        <CartItem 
-                            key={cart_item.id} 
-                            cartItem={cart_item} 
-                            cart_id={cart_id} 
-                            onQuantityChange={handleQuantityChange} 
-                            onDelete={handleDelete}
-                        />
-                    ))}
-                </tbody>
-            </table>
-        </div>
-
-        <div className="order-summary">
-            <h4>Order Summary</h4>
-            <div className="summary-items">
-                <div className="summary-item">
-                    <p>Subtotal</p>
-                    <p>{subTotal}</p>
-                </div>
-
-                <hr/>
-                
-                <div className="summary-item">
-                    <p>Grand Total</p>
-                    <p>PKR {subTotal}</p>
-                </div>
+                    <tbody>
+                        {cartItems.map((cart_item, index)=>(
+                            <CartItem 
+                                key={cart_item.id} 
+                                cartItem={cart_item} 
+                                cart_id={cart_id} 
+                                onQuantityChange={handleQuantityChange} 
+                                onDelete={handleDelete}
+                            />
+                        ))}
+                    </tbody>
+                </table>
             </div>
-            <button 
-                type='submit'
-                onClick={ checkout }
-            >
-                Proceed to Checkout
-            </button>
+
+            <div className="order-summary">
+                <h4>Order Summary</h4>
+                <div className="summary-items">
+                    <div className="summary-item">
+                        <p>Subtotal</p>
+                        <p>{subTotal}</p>
+                    </div>
+
+                    <hr/>
+                    
+                    <div className="summary-item">
+                        <p>Grand Total</p>
+                        <p>PKR {subTotal}</p>
+                    </div>
+                </div>
+                <button 
+                    type='submit'
+                    onClick={ checkout }
+                >
+                    Proceed to Checkout
+                </button>
+            </div>
         </div>
-    </div>
-  )
-} else{
-    return(
-        <div className='empty-cart-container'>
-            <h1>Your cart is empty</h1>
-        </div>
-    ) 
-}}
+    )} else{
+        return(
+            <div className='empty-cart-container'>
+                <h1>Your cart is empty</h1>
+            </div>
+        ) 
+    }}
 
 export default Cart

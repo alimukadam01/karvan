@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import './ProductDetail.css'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { fetchProductDetail } from '../../services/api'
+import { buyProduct, fetchProductDetail } from '../../services/api'
 import { addToCart } from '../../services/api'
 import { showSuccessToast } from '../../services/utils'
 import { showErrorToast } from '../../services/utils'
@@ -77,6 +77,25 @@ function ProductDetail() {
     }catch(error){
       showErrorToast("Oops! we ran into an error. Please try again.")
       console.log(error)
+    }
+  }
+
+  const buy = async ()=>{
+    try{
+      const order_id = await buyProduct(batch_id, product_id, quantity, size)
+      if (order_id){
+        navigate('/checkout', {
+          state: {
+            "order_id": order_id
+          }
+        })
+      }else{
+        showErrorToast("Oops! we ran into an error. Please try again.")
+      }
+
+    }catch(error){
+      console.log(error)
+      showErrorToast("Oops! we ran into an error. Please try again.")
     }
   }
 
@@ -180,7 +199,7 @@ function ProductDetail() {
                 <div className='adc-and-like-btns'>
                   <button 
                     className="purchase-btn" 
-                    onClick={handleAtcClick}
+                    onClick={ handleAtcClick }
                   >
                     <p className='btn-text'>Add to Cart</p>
                   </button>
@@ -190,7 +209,10 @@ function ProductDetail() {
                 </div>
 
                 <div className='bin-container'>
-                  <button className='purchase-btn'>
+                  <button 
+                    className='purchase-btn'
+                    onClick={ buy }
+                  >
                     <p className="btn-text">Buy it now</p>
                   </button>
                 </div>
