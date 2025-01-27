@@ -20,8 +20,9 @@ function OrderDetails() {
   const [order, setOrder] = useState(null)
   const [cities, setCities] = useState(null)
   const [email, setEmail] = useState(null)
-  const [city, setCity] = useState(null)
+  const [city, setCity] = useState()
   const handleCityChange = (e)=>{
+    
     const selectedCity = cities.find(
       (obj) => obj.name === e.target.value
     )
@@ -60,7 +61,6 @@ function OrderDetails() {
       }
     }
     getCities()
-
   }, [])
 
   // FORM FIELDS
@@ -85,20 +85,21 @@ function OrderDetails() {
 
   const autoFillForm = (buyer)=>{
     setFormData({
+      email: buyer.email,
       first_name: buyer.first_name,
       last_name: buyer.last_name,
       phone: buyer.phone,
       address: buyer.addresses[0]?.address,
       apt_suite: buyer.addresses[0]?.apt_suite,
-      city_id: buyer?.addresses[0]?.city.id,
       alt_phone: buyer.addresses[0]?.phone,
-      postal_code: buyer.addresses[0]?.postal_code
+      postal_code: buyer.addresses[0]?.postal_code,
+      city_id: buyer.addresses[0]?.city.id
     })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(formData)
     try{
       const is_finalized = await finalizeOrder(order_id, formData)
       if (is_finalized){
@@ -122,18 +123,31 @@ function OrderDetails() {
     const value = e.target.value
     setEmail(value)
 
-    if (validateEmail(email)){
-      const buyer = await fetchBuyerDetails(email)
-      if (buyer){
-        autoFillForm(buyer)
-      }
-    }
-
     setFormData((prevFormData) => ({
       ...prevFormData,
       email: value,
     }))
+
   }
+
+  useEffect(()=>{
+    const get_buyer = async ()=>{
+      if (validateEmail(email)){
+        const buyer = await fetchBuyerDetails(email)
+        if (buyer){
+          autoFillForm(buyer)
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            email: email,
+          })) 
+          setCity(buyer.addresses[0].city)
+        }
+      }
+    }
+
+    get_buyer()
+
+  }, [email])
 
   return (
     <div className='order-details-checkout-container'>
@@ -145,10 +159,10 @@ function OrderDetails() {
               </div>
 
               <div className="fields-container">
-                <input type='text' placeholder='First Name' value={formData.first_name} onChange={handleFieldChange}/>
-                <input type='text' placeholder='Last Name' value={formData.last_name} onChange={handleFieldChange}/>
-                <input type='text' placeholder='Email' value={formData.email} onChange={handleEmailChange}/>
-                <input type='text' placeholder='Contact Number' value={formData.phone} onChange={handleFieldChange}/>
+                <input type='text' name="first_name" placeholder='First Name' value={formData.first_name} onChange={handleFieldChange}/>
+                <input type='text' name="last_name" placeholder='Last Name' value={formData.last_name} onChange={handleFieldChange}/>
+                <input type='text' name="email" placeholder='Email' value={formData.email} onChange={handleEmailChange}/>
+                <input type='text' name="phone" placeholder='Contact Number' value={formData.phone} onChange={handleFieldChange}/>
               </div>
             </div>
             
@@ -157,22 +171,23 @@ function OrderDetails() {
                 <h1>Delivery Information</h1>
               </div>
             
-              <input id='full-row-field' type='text' placeholder='Address' value={formData.address} onChange={handleFieldChange}/>
+              <input id='full-row-field' type='text' name="address" placeholder='Address' value={formData.address} onChange={handleFieldChange}/>
             
               <div className="fields-container">
-                <input type='text' placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
+                <input type='text' name="apt_suite" placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
                 <select 
                   name="city" 
                   onChange={ handleCityChange }
-                  placeholder="Select City"
+                  value={city?.name || null}
                   required
                 >
+                  <option key={''} value={null}>Select City</option>
                   {cities?.map((obj, index)=>(
                     <option key={obj.id} value={obj.name}>{obj.name}</option>
                   ))}
                 </select>
-                <input type='text' placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange}/>
-                <input type='text' placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange}/>
+                <input type='text' name="alt_phone" placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange}/>
+                <input type='text' name="postal_code" placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange}/>
               </div>
             
             </div>
@@ -217,7 +232,7 @@ function OrderDetails() {
             <h4>Order Summary</h4>
             <div className="checkout-items">
               {order?.items.map((item, index)=>(
-                <div className="checkout-product">
+                <div key={item.id} className="checkout-product">
                   <div className="checkout-product-image-details">
                     <div className="checkout-product-image">
                       <img src={item.product.images[0].image} alt="" />
