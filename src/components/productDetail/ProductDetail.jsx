@@ -63,7 +63,7 @@ function ProductDetail() {
     setQuantity((prevQuantity) => prevQuantity + 1); // Increment by 1
   }
   const decreaseQuantity = () =>{
-    setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : 0)); // Increment by 1
+    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1)); // Increment by 1
   }
 
   const handleAtcClick = async ()=>{
@@ -225,10 +225,13 @@ function ProductDetail() {
               <hr/>
               <div className='product-review-container'>
                 <i className='fa-solid fa-caret-left fa-xl'/>
-                <div className='product-review'>
-                  <h5>by Ali Mukadam</h5>
-                  <p>Love this hoodie! It's so frickin COMFORTABLE!</p>
-                </div>
+                {product?.reviews.map((review, index)=>(
+                  <div className='product-review'>
+                    <h5>by {review.buyer.first_name} {review.buyer.last_name}</h5>
+                    <p>{review.review}</p>
+                  </div>
+                ))}
+                
                 <i className='fa-solid fa-caret-right fa-xl'/>
               </div>
             </div>
