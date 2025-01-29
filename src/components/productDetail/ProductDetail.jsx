@@ -16,7 +16,8 @@ function ProductDetail() {
 
   const [product, setProduct] = useState({
     "sizes" : [],
-    "images": []
+    "images": [],
+    "reviews": []
   })
 
   const options = product.sizes
@@ -147,7 +148,7 @@ function ProductDetail() {
           
               <div className='product-rating'>
                 {renderStars(product.rating)}
-                <a href='#'>{ product.reviews } Reviews</a>
+                <a href='#'>{ product.reviews.length } Reviews</a>
               </div>
             </div>
           
@@ -218,7 +219,22 @@ function ProductDetail() {
                 </div>
               </div>
             </div>
+              
+            <div className='product-reviews-container'>
+              <h3>Reviews</h3>
+              <hr/>
+              <div className='product-review-container'>
+                <i className='fa-solid fa-caret-left fa-xl'/>
+                <div className='product-review'>
+                  <h5>by Ali Mukadam</h5>
+                  <p>Love this hoodie! It's so frickin COMFORTABLE!</p>
+                </div>
+                <i className='fa-solid fa-caret-right fa-xl'/>
+              </div>
+            </div>
           </div>
+
+
         </div>
       </div>
     </div>

@@ -21,6 +21,15 @@ function OrderDetails() {
   const [cities, setCities] = useState(null)
   const [email, setEmail] = useState(null)
   const [city, setCity] = useState()
+  const [paymentMode, setPaymentMode] = useState("Card")
+  const handlePaymentModeClick = ()=>{
+    if (paymentMode === "Cash"){
+      setPaymentMode("Card")
+    }else{
+      setPaymentMode("Cash")
+    }
+  }
+
   const handleCityChange = (e)=>{
     
     const selectedCity = cities.find(
@@ -130,6 +139,7 @@ function OrderDetails() {
 
   }
 
+  // autofills form upon email validation
   useEffect(()=>{
     const get_buyer = async ()=>{
       if (validateEmail(email)){
@@ -175,17 +185,20 @@ function OrderDetails() {
             
               <div className="fields-container">
                 <input type='text' name="apt_suite" placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
-                <select 
-                  name="city" 
-                  onChange={ handleCityChange }
-                  value={city?.name || null}
-                  required
-                >
-                  <option key={''} value={null}>Select City</option>
-                  {cities?.map((obj, index)=>(
-                    <option key={obj.id} value={obj.name}>{obj.name}</option>
-                  ))}
-                </select>
+                <div id='city-dropdown'>
+                  <select 
+                    name="city" 
+                    onChange={ handleCityChange }
+                    value={city?.name || null}
+                    required
+                  >
+                    <option key={''} value={null}>Select City</option>
+                    {cities?.map((obj, index)=>(
+                      <option key={obj.id} value={obj.name}>{obj.name}</option>
+                    ))}
+                  </select>
+                  <i className='fa-solid fa-caret-down'/>
+                </div>
                 <input type='text' name="alt_phone" placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange}/>
                 <input type='text' name="postal_code" placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange}/>
               </div>
@@ -196,7 +209,7 @@ function OrderDetails() {
               <h4>Shipping</h4>
               <div className="payment-button-selected">
                 <p>Standard Shipping</p>
-                <p>PKR 250</p>
+                <i className="fal fa-shipping-fast"/>
               </div>
             </div>
 
@@ -205,12 +218,14 @@ function OrderDetails() {
                 <h1>Payment</h1>
               </div>
 
-              <div className="payment-button-selected">
+              <div className={paymentMode === "Card"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
                 <p>Payment via Debit/Credit Card</p>
+                <i className="fa-solid fa-credit-card fa-xl" style={{"color": "#ffffff"}}/>
               </div>
               
-              <div className="payment-button">
+              <div className={paymentMode === "Cash"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
                 <p>Cash on Delivery</p>
+                <i className="fa-solid fa-money-bill fa-xl" style={{"color": "#ffffff"}}/>
               </div>
             </div>
           </form>

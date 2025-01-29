@@ -136,7 +136,6 @@ export const deleteCartItem = async (cart_id, item_id)=>{
     }
 }
 
-
 export const initiateOrder = async (cart_id) =>{
     try{
         const res = await apiClient.post(

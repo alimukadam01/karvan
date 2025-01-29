@@ -157,17 +157,38 @@
     justify-content: space-between;
 }
 
-.order-details-container input, select{
+.order-details-container input{
     all: unset;
     border: 1.5px white solid;
     border-radius: 5px;
     flex: 1 1 calc(48% - 20px);
     max-width: 480px;
     padding: 8px 12px;
+    display: flex;
 }
 
-.order-details-container option{
+.order-details-container select{
+    all: unset;
+    border-radius: 5px;
+    width: 100%;
+    appearance: none;
+}
+
+#city-dropdown{
+    border: 1.5px white solid;
+    border-radius: 5px;
+    padding: 8px 12px;
+    flex: 1 1 calc(48% - 20px);
+    max-width: 480px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+#city-dropdown option{
     color: black;
+    padding: 12px 10px;
+    width: inherit;
 }
 
 #full-row-field{
@@ -178,6 +199,7 @@
 .payment-button{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: #606060;
     border-radius: 5px;
     padding: 18px 12px;
@@ -186,6 +208,7 @@
 .payment-button-selected{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: #8C24C7;
     border: 2px white solid;
     border-radius: 5px;

@@ -22,6 +22,7 @@ h4{
 
 .right-section{
     display: flex;
+    flex-direction: column;
     flex: 2;
     overflow-y: auto;
     padding-top: 20px;
@@ -236,4 +237,23 @@ h4{
 .like-btn:active{
     background-color: red;
     border: 1px solid red;
+}
+
+.product-reviews-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.product-review-container{
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.product-review{
+    padding: 16px 12px;
+    border-radius: 5px;
+    background-color: white;
+    color: #242424;
 }
