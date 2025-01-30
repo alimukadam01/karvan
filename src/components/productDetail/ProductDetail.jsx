@@ -31,6 +31,7 @@ function ProductDetail() {
     setImage(image);
   }
 
+  // fetches product
   useEffect(()=>{
     const getProductDetail = async (batch_id, product_id)=>{
       try{
@@ -44,6 +45,7 @@ function ProductDetail() {
     getProductDetail(batch_id, product_id)
   }, [batch_id, product_id])
 
+  // updates sizes and image states
   useEffect(()=>{
     const updateSizeImage = ()=>{
       if (product.sizes.length > 0 && size === null){
@@ -100,18 +102,57 @@ function ProductDetail() {
     }
   }
 
-  const renderStars = (rating) => {
+  const [review_idx, setReviewIdx] = useState(0)
+  const [fade, setFade] = useState(false)
+  const [direction, setDirection] = useState()
+  const nextReview = ()=>{
+    if (review_idx > product?.reviews.length - 2) return
+    setDirection("right")
+    setFade(true) // Start fade-out
+    setTimeout(() => {
+      setReviewIdx((prevIdx) =>
+        prevIdx < product?.reviews.length - 1 ? prevIdx + 1 : prevIdx
+      );
+      setFade(false) // Fade in new review
+    }, 300)
+  }
+  const prevReview = ()=>{
+    if (review_idx < 1) return
+
+    setDirection("left")
+    setFade(true)
+    setTimeout(() => {
+      setReviewIdx((prevIdx) =>
+        prevIdx > 0 ? prevIdx - 1: prevIdx
+      )
+      setFade(false)
+    }, 300)
+  }
+
+  const renderStars = (rating, component) => {
     const stars = []
 
     for (let i=0; i<5; i++){
       if (rating >= 1){
-        stars.push(<i className="fas fa-star fa-xl"></i>)
+        if(component === "product-title"){
+          stars.push(<i className="fas fa-star fa-xl"></i>)
+        }else{
+          stars.push(<i className="fas fa-star fa-s" style={{"color": "#FFFF00"}}></i>)
+        }
         rating = rating - 1
       } else if(rating >= 0.5){
-        stars.push(<i className="fas fa-star-half-alt fa-xl"></i>)
+        if(component === "product-title"){
+          stars.push(<i className="fas fa-star-half-alt fa-xl"></i>)
+        }else{
+          stars.push(<i className="fas fa-star-half-alt fa-s" style={{"color": "#FFFF00"}}></i>)
+        }
         rating = rating - 0.5
       }else{
-        stars.push(<i className="fa-regular fa-star fa-xl"></i>)
+        if(component === "product-title"){
+          stars.push(<i className="fa-regular fa-star fa-xl"></i>)
+        }else{
+          stars.push(<i className="fa-regular fa-star fa-s" style={{"color": "#FFFF00"}}></i>)
+        }
       }
     }
 
@@ -147,8 +188,8 @@ function ProductDetail() {
               </div>
           
               <div className='product-rating'>
-                {renderStars(product.rating)}
-                <a href='#'>{ product.reviews.length } Reviews</a>
+                {renderStars(product.rating, "product-title")}
+                <a href='/products/#reviews'>{ product.reviews.length } Reviews</a>
               </div>
             </div>
           
@@ -204,12 +245,6 @@ function ProductDetail() {
                   >
                     <p className='btn-text'>Add to Cart</p>
                   </button>
-                  <button className="like-btn">
-                    <i className='fa-regular fa-heart'/>
-                  </button>
-                </div>
-
-                <div className='bin-container'>
                   <button 
                     className='purchase-btn'
                     onClick={ buy }
@@ -220,19 +255,23 @@ function ProductDetail() {
               </div>
             </div>
               
-            <div className='product-reviews-container'>
+            <div id="reviews" className='product-reviews-parent'>
               <h3>Reviews</h3>
               <hr/>
-              <div className='product-review-container'>
-                <i className='fa-solid fa-caret-left fa-xl'/>
-                {product?.reviews.map((review, index)=>(
-                  <div className='product-review'>
-                    <h5>by {review.buyer.first_name} {review.buyer.last_name}</h5>
-                    <p>{review.review}</p>
+              <div className='product-reviews-container'>
+                <i className='fa-solid fa-caret-left fa-xl' onClick={prevReview}/>
+
+                <div key={review_idx} className={`product-review ${fade ? `fade-out-${direction}` : "fade-in"}`}>
+                  <div className="review-title">
+                    <h5>by {product?.reviews[review_idx]?.buyer?.first_name} {product?.reviews[review_idx]?.buyer?.last_name}</h5>
+                    <div className="product-rating">{renderStars(product?.reviews[review_idx]?.rating)}</div>
                   </div>
-                ))}
+                  <div className="review-text">
+                    <p>{product?.reviews[review_idx]?.review}</p>
+                  </div>
+                </div>
                 
-                <i className='fa-solid fa-caret-right fa-xl'/>
+                <i className='fa-solid fa-caret-right fa-xl' onClick={nextReview}/>
               </div>
             </div>
           </div>
