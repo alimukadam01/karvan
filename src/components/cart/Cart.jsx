@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import EmptyCart from '../emptyCart/EmptyCart'; 
 import './Cart.css'
 import productImage from '../assets/batch-001-01.png'
 import { fetchCartItems, deleteCartItem, initiateOrder, updateCartItemQuantity } from '../../services/api';
@@ -214,9 +215,7 @@ function Cart() {
         </div>
     )} else{
         return(
-            <div className='empty-cart-container'>
-                <h1>Your cart is empty</h1>
-            </div>
+            <EmptyCart/>
         ) 
     }}
 

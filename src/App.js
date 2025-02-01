@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
+import ContactUsPage from './pages/ContactUsPage';
 import { createCart } from './services/api';
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route path='/' element={<HomePage/>}/>
           <Route path='/about-us' element={<AboutUs/>}/>
           <Route path='/products' element={<ProductDetailPage/>}/>
+          <Route path='/contact-us' element={<ContactUsPage/>}/>
           <Route path='/cart' element={<CartPage/>}/>
           <Route path='/checkout' element={<CheckoutPage/>}/>
         </Routes>

@@ -8,13 +8,14 @@ import { showErrorToast, showSuccessToast } from '../../services/utils';
 
 function Product({product}) {
     const sizeMapping = {
+        "XS": "X-Small",
         "S": "Small",
         "M": "Medium",
         "L": "Large",
         "XL": "X-Large"
     }
 
-    const [size, setSize] = useState(product.sizes[0].size);
+    const [size, setSize] = useState(product?.sizes[0].size);
     const selectSize = (size) =>{
         setSize(size);
     }

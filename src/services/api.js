@@ -32,6 +32,7 @@ export const fetchBatchList = async ()=>{
 };
 
 const sizeMapping = {
+    "X-Small": "XS",    
     "Small": "S",
     "Medium": "M",
     "Large": "L",

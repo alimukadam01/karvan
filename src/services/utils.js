@@ -24,3 +24,15 @@ export const showErrorToast = (message) => {
     icon: false
   })
 }
+
+export const handleScrollNavigate = (target, location, navigate) => {
+  if (location.pathname !== '/') {
+    navigate('/');
+  }
+  setTimeout(() => {
+    const element = document.querySelector(`#${target}`);
+    if (element) element.scrollIntoView({ 
+      behavior: 'smooth' 
+    })
+  }, 100)
+}

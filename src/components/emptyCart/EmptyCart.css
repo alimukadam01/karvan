@@ -1,0 +1,42 @@
+.empty-cart-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.empty-cart-image-container{
+    max-width: 200px;
+    max-height: 200px;    
+}
+
+.empty-cart-container img{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+}
+
+.empty-cart-container h4{
+    text-align: center;
+}
+
+.empty-cart-container button{
+    color: #8C24C7;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.3s ease;
+}
+
+.empty-cart-container button h4{
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.2px;
+    font-size: inherit;
+}
+
+.empty-cart-container button:hover{
+    opacity: 0.75;
+}
