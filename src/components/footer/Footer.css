@@ -129,3 +129,8 @@
     align-items: center;
     gap: 8px;
 }
+
+.footer-email-container{
+    display: flex;
+    max-width: 350px;
+}

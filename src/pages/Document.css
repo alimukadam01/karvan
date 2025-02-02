@@ -1,0 +1,28 @@
+.document-container{
+    display: flex;
+    flex-direction: column;
+    max-width: 1020px;
+    padding: 120px 20px 0 20px;
+}
+
+.document{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    padding: 12px 8px;
+    background-color: #FAF9F6;
+    border-radius: 8px;
+    
+}
+
+.document-container h1{
+    color: white;
+    margin-bottom: 20px;
+}
+
+.document-note{
+    padding: 8px 12px;
+    background-color: #8C24C7;
+    color: #FFFFFF;
+    border-radius: 8px;
+}

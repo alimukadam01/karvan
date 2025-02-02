@@ -9,7 +9,10 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import ContactUsPage from './pages/ContactUsPage';
+import ReturnExchangePage from './pages/ReturnExchangePage';
+import ShippingPolicyPage from './pages/ShippingPolicyPage';
 import { createCart } from './services/api';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 
 
 function App() {
@@ -34,6 +37,10 @@ function App() {
           <Route path='/contact-us' element={<ContactUsPage/>}/>
           <Route path='/cart' element={<CartPage/>}/>
           <Route path='/checkout' element={<CheckoutPage/>}/>
+          <Route path='/return-exchange-policy' element={<ReturnExchangePage/>}/>
+          <Route path='/shipping-policy' element={<ShippingPolicyPage/>}/>
+          <Route path='/privacy-policy' element={<PrivacyPolicyPage/>}/>
+
         </Routes>
         <ToastContainer/>
       </BrowserRouter>

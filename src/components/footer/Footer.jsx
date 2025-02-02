@@ -1,6 +1,7 @@
 import React from 'react'
 import './Footer.css'
 import logoMono from '../assets/logo-mono.png'
+import SendEmail from '../sendEmail/SendEmail';
 
 function Footer() {
   return (
@@ -14,9 +15,9 @@ function Footer() {
                     <h2>Customer Support</h2>
                     <div className='footer-links'>
                         <a href='#'>Contact Us</a>
-                        <a href='#'>Return/Exchange Policy</a>
-                        <a href='#'>Shipping Policy</a>
-                        <a href='#'>Privacy Policy</a>
+                        <a href='return-exchange-policy'>Return/Exchange Policy</a>
+                        <a href='shipping-policy'>Shipping Policy</a>
+                        <a href='privacy-policy'>Privacy Policy</a>
                     </div>
                 </div>
                 <div> 
@@ -35,25 +36,14 @@ function Footer() {
                         </div>
                         <div className="footer-handle">
                             <i className="fa-brands fa-facebook fa-xl"></i>
-                            <a href="https://www.facebook.com/profile.php?id=61553389870365/">Facebook</a>
+                            <a href="https://www.facebook.com/share/161nD3rcXb/">Facebook</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className='footer-col-03'>
-                <h2>Send us your feedback</h2>
-                <p>
-                    Let us know what you think or even give us ideas on what you’d 
-                    want to see in our collections. In the end it’s all about you!
-                </p>
-
-                <form>
-                    <input type="text" placeholder='Name'/>
-                    <input type="text" placeholder='Email'/>
-                    <textarea  rows={6} cols={30} type="text" placeholder='Suggest something!'/>
-                    <button type='submit'>Submit Feedback</button>
-                </form>
+            <div className="footer-email-container">
+                <SendEmail/>
             </div>
         </div>
     </div>

@@ -1,0 +1,64 @@
+.email-container{
+    display: flex;
+    flex-direction: column;
+    background-color: #8C24C7;
+    border-radius: 5px; 
+}
+
+.email-container p{
+    margin: 0 0 10px 0;
+    color: #BDBDBD;
+}
+
+.email-container form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.email-container input{
+    all: unset;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    margin-bottom: 10px;
+    height: 52px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.email-container input::placeholder{
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.email-container textarea{
+    all: unset;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.email-container textarea::placeholder{
+    color: white;
+    opacity: 0.5;
+}
+
+.email-container button{
+    all: unset;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-align: center;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+.email-container button:hover{
+    background-color: #242424;
+}
