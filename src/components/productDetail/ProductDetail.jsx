@@ -2,13 +2,18 @@ import { React, useState, useEffect } from 'react'
 import './ProductDetail.css'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { buyProduct, fetchProductDetail } from '../../services/api'
+import { handleScrollNavigate } from '../../services/utils'
 import { addToCart } from '../../services/api'
 import { showSuccessToast } from '../../services/utils'
 import { showErrorToast } from '../../services/utils'
 
 function ProductDetail() {
 
-  const location = useLocation()
+  const location = useLocation({
+    "state": {
+
+    }
+  })
   const navigate = useNavigate()
   const product_id = location.state.product_id || null
   const batch_id = location.state.batch_id || null
@@ -42,6 +47,7 @@ function ProductDetail() {
       }
     }
     
+    window.scrollTo(0, 0)
     getProductDetail(batch_id, product_id)
   }, [batch_id, product_id])
 
@@ -129,6 +135,10 @@ function ProductDetail() {
     }, 300)
   }
 
+  const scrollToReviews = () => {
+    document.getElementById("reviews")?.scrollIntoView({ behavior: "smooth" });
+  }
+
   const renderStars = (rating, component) => {
     const stars = []
 
@@ -189,7 +199,9 @@ function ProductDetail() {
           
               <div className='product-rating'>
                 {renderStars(product.rating, "product-title")}
-                <a href='/products/#reviews'>{ product.reviews.length } Reviews</a>
+                <button onClick={ scrollToReviews }>
+                  { product.reviews.length } Reviews
+                </button>
               </div>
             </div>
           
@@ -254,26 +266,28 @@ function ProductDetail() {
                 </div>
               </div>
             </div>
-              
-            <div id="reviews" className='product-reviews-parent'>
-              <h3>Reviews</h3>
-              <hr/>
-              <div className='product-reviews-container'>
-                <i className='fa-solid fa-caret-left fa-xl' onClick={prevReview}/>
+          
+            { product?.reviews?.length > 0 && (
+              <div id="reviews" className='product-reviews-parent'>
+                <h3>Reviews</h3>
+                <hr/>
+                <div className='product-reviews-container'>
+                  <i className='fa-solid fa-caret-left fa-xl' onClick={prevReview}/>
 
-                <div key={review_idx} className={`product-review ${fade ? `fade-out-${direction}` : "fade-in"}`}>
-                  <div className="review-title">
-                    <h5>by {product?.reviews[review_idx]?.buyer?.first_name} {product?.reviews[review_idx]?.buyer?.last_name}</h5>
-                    <div className="product-rating">{renderStars(product?.reviews[review_idx]?.rating)}</div>
+                  <div key={review_idx} className={`product-review ${fade ? `fade-out-${direction}` : "fade-in"}`}>
+                    <div className="review-title">
+                      <h5>by {product?.reviews[review_idx]?.buyer?.first_name} {product?.reviews[review_idx]?.buyer?.last_name}</h5>
+                      <div className="product-rating">{renderStars(product?.reviews[review_idx]?.rating)}</div>
+                    </div>
+                    <div className="review-text">
+                      <p>{product?.reviews[review_idx]?.review}</p>
+                    </div>
                   </div>
-                  <div className="review-text">
-                    <p>{product?.reviews[review_idx]?.review}</p>
-                  </div>
+                  
+                  <i className='fa-solid fa-caret-right fa-xl' onClick={nextReview}/>
                 </div>
-                
-                <i className='fa-solid fa-caret-right fa-xl' onClick={nextReview}/>
               </div>
-            </div>
+            )}
           </div>
 
 

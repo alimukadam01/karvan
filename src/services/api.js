@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000/"
+const BASE_URL = "http://backend.shopkarvan.pk/"
 const apiClient = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -223,7 +223,7 @@ export const finalizeOrder = async (order_id, data) =>{
 
 export const fetchBuyerDetails = async (email) =>{
     try{
-        const access = await login("amurtaza907@gmail.com", "polaroids34")
+        const access = await login("mukadamali20@hotmail.com", "admin123")
 
         if (access){
             
@@ -247,5 +247,23 @@ export const fetchBuyerDetails = async (email) =>{
 
     }catch(error){
         console.log(error)
+    }
+}
+
+export const sendEmail = async (name, email, message) =>{
+    try{
+        const res = await apiClient.post('email_user/', {
+            "email": email,
+            "name": name,
+            "message": message
+        })
+        if (res.status === 200){
+            return true
+        }else{
+            return false
+        }
+    }catch(error){
+        console.log(error)
+        return false
     }
 }

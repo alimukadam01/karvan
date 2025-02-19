@@ -25,7 +25,12 @@ export const showErrorToast = (message) => {
   })
 }
 
-export const handleScrollNavigate = (target, location, navigate) => {
+export const handleScrollNavigate = (target, location, navigate, setMenuOpen = null) => {
+  
+  if (setMenuOpen){
+    setMenuOpen(false)
+  }
+  
   if (location.pathname !== '/') {
     navigate('/');
   }

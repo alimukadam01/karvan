@@ -1,9 +1,13 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
 import './Footer.css'
 import logoMono from '../assets/logo-mono.png'
 import SendEmail from '../sendEmail/SendEmail';
+import { useMobileContext } from '../mobile-context/MobileContext';
 
 function Footer() {
+    const isMobile = useMobileContext()
+
+
   return (
     <div className='footer-container container-fluid'>
         <div className='footer-logo-container'>
@@ -14,7 +18,7 @@ function Footer() {
                 <div>
                     <h2>Customer Support</h2>
                     <div className='footer-links'>
-                        <a href='#'>Contact Us</a>
+                        <a href='contact-us'>Contact Us</a>
                         <a href='return-exchange-policy'>Return/Exchange Policy</a>
                         <a href='shipping-policy'>Shipping Policy</a>
                         <a href='privacy-policy'>Privacy Policy</a>
@@ -42,9 +46,14 @@ function Footer() {
                 </div>
             </div>
 
-            <div className="footer-email-container">
-                <SendEmail/>
-            </div>
+            {isMobile? (
+                <div>
+                </div>
+            ): (
+                <div className="footer-email-container">
+                    <SendEmail/>
+                </div>
+            )}
         </div>
     </div>
   )

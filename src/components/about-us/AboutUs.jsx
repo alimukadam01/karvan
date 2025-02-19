@@ -1,11 +1,15 @@
 import React from 'react'
 import aboutus from '../assets/aboutus.png'
 import './AboutUs.css'
+import { useMobileContext } from '../mobile-context/MobileContext'
 
 function AboutUs() {
+
+  const isMobile =  useMobileContext()
+
   return (
     <div>
-      <section id="about-us" className='container-fluid'>
+      <section id={`about-us${isMobile?'-mobile': ''}`} className='container-fluid'>
         <div className='about-us-text'>
             <h1>WHERE WE COME FROM</h1>
             <p>

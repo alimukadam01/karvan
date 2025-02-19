@@ -20,6 +20,7 @@
 .footer-columns{
     display: flex;
     justify-content: space-between;
+    gap: 20px;
 }
 
 .footer-container h2{
@@ -33,6 +34,7 @@
     flex-direction: column;
     max-width: 350px;
     justify-content: space-between;
+    gap: 40px;
 }
 
 .footer-col-01 p{

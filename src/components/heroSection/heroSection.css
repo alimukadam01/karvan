@@ -9,6 +9,18 @@
     background-repeat: no-repeat;
 }
 
+#hero-section-mobile-container{
+    height: 750px;
+    overflow: hidden;
+    background-image: url('../assets/hero-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}
+
 .hero-text{
     display: flex;
     position: absolute;
@@ -20,6 +32,13 @@
     line-height: 129px;
     text-align: right;
     color: #8C24C7;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.59);
+}
 
+.hero-text-mobile{
+    font-weight: 500;
+    font-size: 24px;
+    text-align: center;
+    color: white;
     text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.59);
 }

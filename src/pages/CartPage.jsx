@@ -2,13 +2,16 @@ import React from 'react'
 import Navbar from '../components/navbar/Navbar'
 import Cart from '../components/cart/Cart'
 import Footer from '../components/footer/Footer'
+import { MobileContextProvider } from '../components/mobile-context/MobileContext'
 
 const CartPage = () => {
   return (
     <div>
-      <Navbar/>
-      <Cart/>
-      <Footer/>
+      <MobileContextProvider>
+        <Navbar/>
+        <Cart/>
+        <Footer/>
+      </MobileContextProvider>
     </div>
   )
 }

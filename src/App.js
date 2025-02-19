@@ -3,7 +3,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { useState, useEffect } from 'react';
 import "react-toastify/dist/ReactToastify.css";
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
-import AboutUs from './pages/AboutUs';
 import HomePage from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
@@ -32,7 +31,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<HomePage/>}/>
-          <Route path='/about-us' element={<AboutUs/>}/>
           <Route path='/products' element={<ProductDetailPage/>}/>
           <Route path='/contact-us' element={<ContactUsPage/>}/>
           <Route path='/cart' element={<CartPage/>}/>
@@ -40,7 +38,6 @@ function App() {
           <Route path='/return-exchange-policy' element={<ReturnExchangePage/>}/>
           <Route path='/shipping-policy' element={<ShippingPolicyPage/>}/>
           <Route path='/privacy-policy' element={<PrivacyPolicyPage/>}/>
-
         </Routes>
         <ToastContainer/>
       </BrowserRouter>

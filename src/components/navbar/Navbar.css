@@ -1,10 +1,12 @@
 .navbar-customized{
     width: 100%;
-    padding: 0;
+    padding: 0 20px;
     z-index: 10;
     position: absolute;
-    justify-content: space-between; 
-    align-items: center;  
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .container-fluid{
@@ -12,22 +14,16 @@
     padding: 0 20px;
 }
 
-.navbar-layout-auto{
+.logo-container{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 0px 20px;
-    height: 80px;
-    width: 100vw;
-    position: absolute;
-    z-index: 100;
-    outline: 2px solid red;
+    object-position: center;
+    object-fit: cover;
 }
 
-/* Karvan logo 1 */
 .karvan-logo{
-    width: auto;
-    height: 100px;
+    max-width: 200px;
 }
 
 .buttons-container{
@@ -45,7 +41,7 @@
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
-
+    text-align: center;
     /* identical to box height */
     color: #FFFFFF;
 
@@ -60,5 +56,58 @@
     color: #8C24C7;
 }
 
+.hamburger-btn{
+    all: unset;
+}
 
+.hamburger-btn i:hover{
+    color: #8C24C7;
+}
 
+.ham-menu-container{
+    position: fixed;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 100%;
+    gap: 20px;
+    background-color: #242424;
+    border-radius: 0 0 5px 5px;
+    z-index: 150;
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: opacity 1s ease-in, transform 5s ease-in;
+}
+
+.ham-menu-container.open{
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.ham-title-container{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    max-height: 80px;
+}
+
+.ham-buttons-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0 20px;
+}
+
+.nav-icon{
+    color: #ffffff;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-icon:hover{
+    color: #8C24C7;
+}

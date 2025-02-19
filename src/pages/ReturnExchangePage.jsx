@@ -2,10 +2,12 @@ import React from 'react'
 import './Document.css'
 import Footer from '../components/footer/Footer'
 import Navbar from '../components/navbar/Navbar'
+import { MobileContextProvider } from '../components/mobile-context/MobileContext'
 
 function ReturnExchangePage() {
   return (
     <div>
+      <MobileContextProvider>
         <Navbar/>
         <div className='document-container'>
           <h1>Refund/Exchange Policy</h1>
@@ -35,6 +37,7 @@ function ReturnExchangePage() {
           </div>
         </div>
         <Footer/>
+      </MobileContextProvider>
     </div>
   )
 }

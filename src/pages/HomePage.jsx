@@ -1,10 +1,11 @@
 import {React, useState, useEffect} from 'react';
 import { createCart } from '../services/api';
-import HeroSection from '../components/heroSection/heroSection';
 import Navbar from '../components/navbar/Navbar';
-import AboutUs from '../components/about-us/AboutUs';
+import HeroSection from '../components/heroSection/heroSection';
+import AboutUs from '../components/about-us/AboutUs'
 import BatchDisplay from '../components/batchDisplay/BatchDisplay';
 import Footer from '../components/footer/Footer';
+import { MobileContextProvider } from '../components/mobile-context/MobileContext';
 
 const HomePage = () => {
 
@@ -21,11 +22,13 @@ const HomePage = () => {
 
   return (
     <div>
-      <Navbar/>
-      <HeroSection/>
-      <AboutUs/>
-      <BatchDisplay/>
-      <Footer/> 
+      <MobileContextProvider>
+        <Navbar/>
+        <HeroSection/>
+        <AboutUs/>
+        <BatchDisplay/>
+        <Footer/> 
+      </MobileContextProvider>
     </div>
   )
 }
