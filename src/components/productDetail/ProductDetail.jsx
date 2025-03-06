@@ -1,19 +1,20 @@
 import { React, useState, useEffect } from 'react'
 import './ProductDetail.css'
+import { useMobileContext } from '../mobile-context/MobileContext' 
 import { useNavigate, useLocation } from 'react-router-dom'
 import { buyProduct, fetchProductDetail } from '../../services/api'
-import { handleScrollNavigate } from '../../services/utils'
 import { addToCart } from '../../services/api'
 import { showSuccessToast } from '../../services/utils'
 import { showErrorToast } from '../../services/utils'
 
 function ProductDetail() {
 
-  const location = useLocation({
-    "state": {
-
-    }
-  })
+  const isMobile = useMobileContext()
+  const  location = useLocation() 
+  const [descOpen, setDescOpen] = useState(true)
+  const openDesc = ()=>{
+    setDescOpen(!descOpen)
+  }
   const navigate = useNavigate()
   const product_id = location.state.product_id || null
   const batch_id = location.state.batch_id || null
@@ -145,23 +146,23 @@ function ProductDetail() {
     for (let i=0; i<5; i++){
       if (rating >= 1){
         if(component === "product-title"){
-          stars.push(<i className="fas fa-star fa-xl"></i>)
+          stars.push(<i className="fas fa-star"></i>)
         }else{
-          stars.push(<i className="fas fa-star fa-s" style={{"color": "#FFFF00"}}></i>)
+          stars.push(<i className="fas fa-star" style={{"color": "#FFFF00"}}></i>)
         }
         rating = rating - 1
       } else if(rating >= 0.5){
         if(component === "product-title"){
-          stars.push(<i className="fas fa-star-half-alt fa-xl"></i>)
+          stars.push(<i className="fas fa-star-half-alt"></i>)
         }else{
-          stars.push(<i className="fas fa-star-half-alt fa-s" style={{"color": "#FFFF00"}}></i>)
+          stars.push(<i className="fas fa-star-half-alt" style={{"color": "#FFFF00"}}></i>)
         }
         rating = rating - 0.5
       }else{
         if(component === "product-title"){
-          stars.push(<i className="fa-regular fa-star fa-xl"></i>)
+          stars.push(<i className="fa-regular fa-star"></i>)
         }else{
-          stars.push(<i className="fa-regular fa-star fa-s" style={{"color": "#FFFF00"}}></i>)
+          stars.push(<i className="fa-regular fa-star" style={{"color": "#FFFF00"}}></i>)
         }
       }
     }
@@ -171,128 +172,257 @@ function ProductDetail() {
   
   return (
     <div>
-      <div className='container-fluid product-detail-container'>
-        <div className="left-section">
-          <div className='product-images-carousel'>
-            {product.images.map((selectedImage, index)=>(
-              <div className={`carousel-image ${selectedImage.image === image ? "selected" : ""}`}>
-                <img key={selectedImage.id}
-                  onClick={()=>selectImage(selectedImage.image)} 
-                  src={selectedImage.image} alt='/'
-                />
-              </div>
-            ))}
-          </div>
-          
-          <div className='product-image-container'>
-            <img src={image} alt='/'/>
-          </div>
-        </div>
-        
-        <div className='right-section'>
-          <div className='product-detail'>
-            <div className='title-container'>
-              <div className='product-title'>
-                <p>From BATCH-00{ product.batch }</p>
-                <h1>{ product.name? product.name.toUpperCase(): "" }</h1>
-              </div>
-          
-              <div className='product-rating'>
-                {renderStars(product.rating, "product-title")}
-                <button onClick={ scrollToReviews }>
-                  { product.reviews.length } Reviews
-                </button>
-              </div>
-            </div>
-          
-            <hr/>
-          
-            <div className='product-description'>
-              { product.desc }
+      { isMobile? (
+
+        <div className='product-detail-mobile-view'>
+          <div className='title-container'>
+            <div className='product-title'>
+              <p>From BATCH-00{ product.batch }</p>
+              <h2>{ product.name? product.name.toUpperCase(): "" }</h2>
             </div>
             
-            <h1 id='price-tag'>PKR { product.price }</h1>
+            <div className='product-rating'>
+            {renderStars(product.rating, "product-title")}
+            <button onClick={ scrollToReviews }>
+              { product.reviews.length } Reviews
+            </button>
+            </div>
+          </div>
+
+          <div className="mobile-price-container">
+            <h3 id='price-tag'>PKR { product.price }</h3>
             <p>
               {`${ product.is_available ? "In Stock": "Out of Stock" }`}
             </p>
-            
-            <div className="size-quantity-purchase-container">
-              <div>
-                <div className='size-title'>
-                  <h4>Select Size</h4>
-                  <a href='#'>size chart</a>
-                </div>
-
-                <div className="sizes-container">
-                  { options.map((option, index)=>(
-                    <button 
-                      key={ index }
-                      className={`size-button ${option.size === size ? "selected" : ""}`}
-                      onClick={()=>{selectSize(option.size)}}
-                    ><p className='btn-text'>{option.size}</p></button>
-                  )) }
-                </div>
-              </div>
-              
-              <div className='quantity-container'>
-                <h4>Quantity</h4>
-                <div className="quantity-component">
-                  <button 
-                    className='quantity-button'
-                    onClick={ decreaseQuantity }
-                  >-</button>
-                    <p id='quantity'>{ quantity }</p>
-                  <button 
-                    className='quantity-button'
-                    onClick={ increaseQuantity }  
-                  >+</button>
-                </div>
-              </div>
-
-              <div className="purchase-container">
-                <div className='adc-and-like-btns'>
-                  <button 
-                    className="purchase-btn" 
-                    onClick={ handleAtcClick }
-                  >
-                    <p className='btn-text'>Add to Cart</p>
-                  </button>
-                  <button 
-                    className='purchase-btn'
-                    onClick={ buy }
-                  >
-                    <p className="btn-text">Buy it now</p>
-                  </button>
-                </div>
-              </div>
-            </div>
+          </div>
           
-            { product?.reviews?.length > 0 && (
-              <div id="reviews" className='product-reviews-parent'>
-                <h3>Reviews</h3>
-                <hr/>
-                <div className='product-reviews-container'>
-                  <i className='fa-solid fa-caret-left fa-xl' onClick={prevReview}/>
-
-                  <div key={review_idx} className={`product-review ${fade ? `fade-out-${direction}` : "fade-in"}`}>
-                    <div className="review-title">
-                      <h5>by {product?.reviews[review_idx]?.buyer?.first_name} {product?.reviews[review_idx]?.buyer?.last_name}</h5>
-                      <div className="product-rating">{renderStars(product?.reviews[review_idx]?.rating)}</div>
-                    </div>
-                    <div className="review-text">
-                      <p>{product?.reviews[review_idx]?.review}</p>
-                    </div>
-                  </div>
-                  
-                  <i className='fa-solid fa-caret-right fa-xl' onClick={nextReview}/>
-                </div>
-              </div>
-            )}
+          <div className='product-image-container'>
+              <img src={image} alt='/'/>
           </div>
 
+          <div className="mobile-carousel-container">
+            <div className='product-images-carousel'>
+              {product.images.map((selectedImage, index)=>(
+                <div className={`carousel-image ${selectedImage.image === image ? "selected" : ""}`}>
+                  <img key={selectedImage.id}
+                    onClick={()=>selectImage(selectedImage.image)} 
+                    src={selectedImage.image} alt='/'
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className='product-description-mobile-container'>
+            <button className = 'product-desc-toggle' onClick={openDesc}>
+              <h4>Product Description</h4>
+              <i className={`fa-solid fa-angle-${descOpen? 'down': 'up'}`}/>
+            </button>
+
+            { descOpen?(
+              <div className='product-description'>
+                {product.desc}
+              </div>): (<div></div>
+            )}
+          </div>
+          
+          <div className='mobile-sizes-opt-container'>
+            <div className='size-title'>
+              <h4>Select Size</h4>
+              <a href='#'>size chart</a>
+            </div>
+
+            <div className="sizes-container">
+              { options.map((option, index)=>(
+                <button 
+                  key={ index }
+                  className={`size-button ${option.size === size ? "selected" : ""}`}
+                  onClick={()=>{selectSize(option.size)}}
+                ><p className='btn-text'>{option.size}</p></button>
+              )) }
+            </div>
+          </div>
+          
+          
+          <div className='quantity-container'>
+            <h4>Quantity</h4>
+            <div className="quantity-component">
+              <button 
+                className='quantity-button'
+                onClick={ decreaseQuantity }
+              >-</button>
+                <p id='quantity'>{ quantity }</p>
+              <button 
+                className='quantity-button'
+                onClick={ increaseQuantity }  
+              >+</button>
+            </div>
+          </div>
+
+          <div className="purchase-container">
+            <div className='adc-and-like-btns'>
+              <button 
+                className="purchase-btn" 
+                onClick={ handleAtcClick }
+              >
+                <p className='btn-text'>Add to Cart</p>
+              </button>
+              <button 
+                className='purchase-btn'
+                onClick={ buy }
+              >
+                <p className="btn-text">Buy it now</p>
+              </button>
+            </div>
+          </div>
+
+          { product?.reviews?.length > 0 && (
+            <div id="reviews" className='product-reviews-parent'>
+              <h3>Reviews</h3>
+              <hr/>
+              <div className='product-reviews-container'>
+                <i className='fa-solid fa-caret-left fa-xl' onClick={prevReview}/>
+
+                <div key={review_idx} className={`product-review ${fade ? `fade-out-${direction}` : "fade-in"}`}>
+                  <div className="review-title">
+                    <h5>by {product?.reviews[review_idx]?.buyer?.first_name} {product?.reviews[review_idx]?.buyer?.last_name}</h5>
+                    <div className="product-rating">{renderStars(product?.reviews[review_idx]?.rating)}</div>
+                  </div>
+                  <div className="review-text">
+                    <p>{product?.reviews[review_idx]?.review}</p>
+                  </div>
+                </div>
+                
+                <i className='fa-solid fa-caret-right fa-xl' onClick={nextReview}/>
+              </div>
+            </div>
+          )}
 
         </div>
-      </div>
+      ): (
+        <div className='container-fluid product-detail-container'>
+          <div className="left-section">
+            <div className='product-images-carousel'>
+              {product.images.map((selectedImage, index)=>(
+                <div className={`carousel-image ${selectedImage.image === image ? "selected" : ""}`}>
+                  <img key={selectedImage.id}
+                    onClick={()=>selectImage(selectedImage.image)} 
+                    src={selectedImage.image} alt='/'
+                  />
+                </div>
+              ))}
+            </div>
+            
+            <div className='product-image-container'>
+              <img src={image} alt='/'/>
+            </div>
+          </div>
+          
+          <div className='right-section'>
+            <div className='product-detail'>
+              <div className='title-container'>
+                <div className='product-title'>
+                  <p>From BATCH-00{ product.batch }</p>
+                  <h3>{ product.name? product.name.toUpperCase(): "" }</h3>
+                </div>
+            
+                <div className='product-rating'>
+                  {renderStars(product.rating, "product-title")}
+                  <button onClick={ scrollToReviews }>
+                    <p> { product.reviews.length } Reviews </p>
+                  </button>
+                </div>
+              </div>
+            
+              <hr/>
+            
+              <div className='product-description'>
+                { product.desc }
+              </div>
+              
+              <h3 id='price-tag'>PKR { product.price }</h3>
+              <p>
+                {`${ product.is_available ? "In Stock": "Out of Stock" }`}
+              </p>
+              
+              <div className="size-quantity-purchase-container">
+                <div>
+                  <div className='size-title'>
+                    <h4>Select Size</h4>
+                    <a href='#'>size chart</a>
+                  </div>
+
+                  <div className="sizes-container">
+                    { options.map((option, index)=>(
+                      <button 
+                        key={ index }
+                        className={`size-button ${option.size === size ? "selected" : ""}`}
+                        onClick={()=>{selectSize(option.size)}}
+                      ><p className='btn-text'>{option.size}</p></button>
+                    )) }
+                  </div>
+                </div>
+                
+                <div className='quantity-container'>
+                  <h4>Quantity</h4>
+                  <div className="quantity-component">
+                    <button 
+                      className='quantity-button'
+                      onClick={ decreaseQuantity }
+                    >-</button>
+                      <p id='quantity'>{ quantity }</p>
+                    <button 
+                      className='quantity-button'
+                      onClick={ increaseQuantity }  
+                    >+</button>
+                  </div>
+                </div>
+
+                <div className="purchase-container">
+                  <div className='adc-and-like-btns'>
+                    <button 
+                      className="purchase-btn" 
+                      onClick={ handleAtcClick }
+                    >
+                      <p className='btn-text'>Add to Cart</p>
+                    </button>
+                    <button 
+                      className='purchase-btn'
+                      onClick={ buy }
+                    >
+                      <p className="btn-text">Buy it now</p>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            
+              { product?.reviews?.length > 0 && (
+                <div id="reviews" className='product-reviews-parent'>
+                  <h3>Reviews</h3>
+                  <hr/>
+                  <div className='product-reviews-container'>
+                    <i className='fa-solid fa-caret-left fa-xl' onClick={prevReview}/>
+
+                    <div key={review_idx} className={`product-review ${fade ? `fade-out-${direction}` : "fade-in"}`}>
+                      <div className="review-title">
+                        <h5>by {product?.reviews[review_idx]?.buyer?.first_name} {product?.reviews[review_idx]?.buyer?.last_name}</h5>
+                        <div className="product-rating">{renderStars(product?.reviews[review_idx]?.rating)}</div>
+                      </div>
+                      <div className="review-text">
+                        <p>{product?.reviews[review_idx]?.review}</p>
+                      </div>
+                    </div>
+                    
+                    <i className='fa-solid fa-caret-right fa-xl' onClick={nextReview}/>
+                  </div>
+                </div>
+              )}
+            </div>
+
+
+          </div>
+        </div>
+      ) }
     </div>
   )
 }

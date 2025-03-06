@@ -62,3 +62,7 @@
 .email-container button:hover{
     background-color: #242424;
 }
+
+.email-container h4{
+    font-weight: 500;
+}

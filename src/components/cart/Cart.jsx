@@ -2,13 +2,16 @@ import { React, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import EmptyCart from '../emptyCart/EmptyCart'; 
 import './Cart.css'
-import productImage from '../assets/batch-001-01.png'
 import { fetchCartItems, deleteCartItem, initiateOrder, updateCartItemQuantity } from '../../services/api';
 import { showErrorToast } from '../../services/utils';
+import { useMobileContext } from '../mobile-context/MobileContext';
 
 function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
 
+    const isMobile = useMobileContext()
+
     const sizeMapping = {
+        "X-Small": "XS",
         "Small": "S",
         "Medium": "M",
         "Large": "L",
@@ -31,7 +34,7 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
     }
 
     const decreaseQuantity = async () =>{
-        const newQuantity = quantity > 0 ? quantity - 1 : 0
+        const newQuantity = quantity > 1 ? quantity - 1 : 1
         try{
             const is_updated = await updateCartItemQuantity(cart_id, cartItem.id, newQuantity)
             if (is_updated){
@@ -55,32 +58,75 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
         }
     }
 
-    return(
+    if (isMobile){ return(
+        <div className="cart-product-mobile-container">
+            <div className="checkout-product-image-details">
+                <div className="checkout-product-image">
+                    <img src={cartItem.product.images[0]?.image} alt="/" />
+                </div>
+                <div className="checkout-product-details" style={
+                    {"align-items": "flex-start"}
+                }>
+                    <div>
+                        <p>{cartItem.product.name} x {cartItem.quantity}</p>
+                        <p>Size: {sizeMapping[cartItem.size]}</p>
+                    </div>
+                    <div className="cart-quantity-component">
+                        <button 
+                            id='left-btn'
+                            className='cart-quantity-btn'
+                            onClick={ decreaseQuantity }
+                        >-</button>
+                            <p id='cart-item-quantity'>{ quantity }</p>
+                        <button 
+                            id='right-btn'
+                            className='cart-quantity-btn'
+                            onClick={ increaseQuantity }  
+                        >+</button>
+                    </div>
+                </div>
+            </div>
+            <div className="checkout-product-details">
+                <p>PKR {cartItem.product.price * quantity}</p>
+                <button 
+                    type="button" 
+                    className="tblBtn"
+                    onClick={ deleteItem }
+                >
+                    <i className="fa fa-trash" aria-hidden="true"></i>
+                    <p>remove</p>
+                </button>
+            </div>
+        </div>
+    
+    )} else { return(
         <tr>
             <td>
                 <div className='cart-product-container'>
                     <div className="cart-product-image">
-                        <img src={productImage}/>
+                        <img src={cartItem.product.images[0]?.image}/>
                     </div>
-                    {cartItem.product.name}
+                    <p>{cartItem.product.name}</p>
                 </div>
             </td>
-            <td>{sizeMapping[cartItem.size]}</td>
+            <td><p>{sizeMapping[cartItem.size]}</p></td>
             <td>
             <div className="cart-quantity-component">
                 <button 
+                    id='left-btn'
                     className='cart-quantity-btn'
                     onClick={ decreaseQuantity }
                 >-</button>
                     <p id='cart-item-quantity'>{ quantity }</p>
                 <button 
+                    id='right-btn'
                     className='cart-quantity-btn'
                     onClick={ increaseQuantity }  
                 >+</button>
             </div>
             </td>
-            <td>{cartItem.product.price}</td>
-            <td>{cartItem.product.price * quantity}</td>
+            <td><p>{cartItem.product.price}</p></td>
+            <td><p>{cartItem.product.price * quantity}</p></td>
             <td>
                 <button 
                     type="button" 
@@ -91,7 +137,7 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
                 </button>
             </td>
         </tr>
-    )
+    )}
 }
 
 function Cart() {
@@ -99,7 +145,11 @@ function Cart() {
     const [cart_id, setCartId] = useState(localStorage.getItem("cart_id"))
     const [cartItems, setCartItems] = useState([])
     const [subTotal, setSubTotal] = useState(0)
+    const [cartOpen, setCartOpen] = useState(window.innerWidth < 900)
+    const isMobile = useMobileContext()
     const navigate = useNavigate()
+
+
 
     useEffect(()=>{
         const getCartItems = async (cart_id)=>{
@@ -126,10 +176,6 @@ function Cart() {
             subTotal += item.product.price * item.quantity
         }
         return subTotal
-    }
-
-    const getSubTotal = ()=>{
-        setSubTotal(calcSubTotal(cartItems))
     }
 
     const handleQuantityChange = (itemId, newQuantity) => {
@@ -161,23 +207,14 @@ function Cart() {
     }, [cartItems])
     
     if (cartItems.length != 0){ return(
-        <div className='cart-and-summary-container'>
+        <div className={`cart-and-summary-${isMobile?'mobile-container': 'container'}`}>
             <div className="cart-container">
-                <h1>Items in your bag</h1>
-                <table className="table all-table">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Size</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                <h3>Items in your bag</h3>
 
-                    <tbody>
-                        {cartItems.map((cart_item, index)=>(
+                {isMobile? (
+                    <div className="cart-items-container">
+                        {
+                        cartItems.map((cart_item, index)=>(
                             <CartItem 
                                 key={cart_item.id} 
                                 cartItem={cart_item} 
@@ -185,33 +222,74 @@ function Cart() {
                                 onQuantityChange={handleQuantityChange} 
                                 onDelete={handleDelete}
                             />
+                        
                         ))}
-                    </tbody>
-                </table>
+                    </div>
+                ): (
+                    <table className="table all-table">
+                        <thead>
+                            <tr>
+                                <th><h5>Product</h5></th>
+                                <th><h5>Size</h5></th>
+                                <th><h5>Quantity</h5></th>
+                                <th><h5>Price</h5></th>
+                                <th><h5>Total</h5></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {cartItems.map((cart_item, index)=>(
+                                <CartItem 
+                                    key={cart_item.id} 
+                                    cartItem={cart_item} 
+                                    cart_id={cart_id} 
+                                    onQuantityChange={handleQuantityChange} 
+                                    onDelete={handleDelete}
+                                />
+                                ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
-
-            <div className="order-summary">
-                <h4>Order Summary</h4>
-                <div className="summary-items">
-                    <div className="summary-item">
-                        <p>Subtotal</p>
-                        <p>{subTotal}</p>
-                    </div>
-
-                    <hr/>
-                    
-                    <div className="summary-item">
-                        <p>Grand Total</p>
-                        <p>PKR {subTotal}</p>
-                    </div>
-                </div>
+            
+            {isMobile? (
                 <button 
-                    type='submit'
-                    onClick={ checkout }
+                className='ptc-btn-mobile' 
+                type='submit'
+                onClick={ checkout }
                 >
                     Proceed to Checkout
                 </button>
-            </div>
+            ): (
+                <div className="order-summary">
+                    <h5>Order Summary</h5>
+                    <div className="summary-items">
+                        <div className="summary-item">
+                            <p>Subtotal</p>
+                            <p>PKR {subTotal}</p>
+                        </div>
+                        <div className="summary-item">
+                            <p>Shipping</p>
+                            <p>at checkout</p>
+                        </div>
+
+                        <hr/>
+                        
+                        <div className="summary-item">
+                            <p>Grand Total</p>
+                            <p>at checkout</p>
+                        </div>
+                    </div>
+                    <button
+                        className='ptc-btn'
+                        type='submit'
+                        onClick={ checkout }
+                    >
+                        Proceed to Checkout
+                    </button>
+                </div>
+            )}
         </div>
     )} else{
         return(

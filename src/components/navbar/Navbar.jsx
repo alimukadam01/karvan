@@ -25,7 +25,7 @@ export const Navbar = () => {
             <div className={`ham-menu-container ${menuOpen? "open": ""}`}>
               <div className='ham-title-container'>
                 <button className="hamburger-btn" onClick={handleMenuBtnClick}>
-                  <i className="fa-solid fa-xmark fa-xl nav-icon"/>
+                  <i className="fa-solid fa-xmark fa-lg nav-icon"/>
                 </button>
                 <div className="logo-container">
                   <a href="/">
@@ -33,7 +33,7 @@ export const Navbar = () => {
                   </a>
                 </div>
                 <RouterLink to="/cart">
-                  <i className="fa-solid fa-cart-shopping fa-xl nav-icon"></i>
+                  <i className="fa-solid fa-cart-shopping fa-lg nav-icon"></i>
                 </RouterLink>
               </div>
 
@@ -48,11 +48,17 @@ export const Navbar = () => {
             <>
               <div className='navbar navbar-customized'>
                 <button className="hamburger-btn" onClick={handleMenuBtnClick}>
-                  <i className="fa-solid fa-bars fa-xl nav-icon"/>
+                  <i className="fa-solid fa-bars fa-lg nav-icon"/>
                 </button>
 
+                <div className="logo-container">
+                  <a href="/">
+                    <img className='karvan-logo' src={logo} alt=""/>
+                  </a>
+                </div>
+
                 <RouterLink to="/cart">
-                    <i className="fa-solid fa-cart-shopping fa-xl nav-icon"></i>
+                    <i className="fa-solid fa-cart-shopping fa-lg nav-icon"></i>
                 </RouterLink>
               </div>
             </>

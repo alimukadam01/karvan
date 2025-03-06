@@ -5,6 +5,7 @@
     background-color: #8C24C7;
     padding: 20px;
     color: white;
+    gap: 20px;
 }
 
 .footer-container input::placeholder{
@@ -12,9 +13,16 @@
     opacity: 0.5;
 }
 
-.footer-container img{
-    height: 120px;
-    width: auto;
+.footer-logo-container{
+    max-height: 40px;
+    max-width: 160px;
+}
+
+.footer-logo-container img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .footer-columns{
@@ -24,7 +32,7 @@
 }
 
 .footer-container h2{
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 600;
     margin: 0 0;
 }

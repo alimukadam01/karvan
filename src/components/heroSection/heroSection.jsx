@@ -17,14 +17,14 @@ function HeroSection() {
         </div>
       ): (
         <div className="container-fluid" id="hero-section-container">
-          <h1 className="hero-text">
-            Will make you <br />
-            STOP and <br />
-            STARE.
-          </h1>
+          <div className="hero-text-container">
+            <p>"Will make you</p>
+            <p>STOP and</p>
+            <p>STARE."</p>
+          </div>
         </div>
         )}
-      </div>    
+    </div>    
   );
 }
 

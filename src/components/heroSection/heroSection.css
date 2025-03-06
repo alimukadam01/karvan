@@ -1,6 +1,8 @@
 #hero-section-container{
-    padding: 0;
-    height: 750px;
+    padding-top: 80px;
+    display: flex;
+    align-items: center;
+    height: 580px;
     overflow: hidden;
     position: relative;
     background-image: url('../assets/hero-bg.png');
@@ -21,15 +23,9 @@
     justify-content: center;
 }
 
-.hero-text{
-    display: flex;
-    position: absolute;
-    top: 30%;
-    left: 52%;
-
+.hero-text-container p{
     font-weight: 700;
-    font-size: 86px;
-    line-height: 129px;
+    font-size: 72px;
     text-align: right;
     color: #8C24C7;
     text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.59);
@@ -37,8 +33,32 @@
 
 .hero-text-mobile{
     font-weight: 500;
-    font-size: 24px;
+    font-size: 18px;
+    margin-bottom: 10px;
     text-align: center;
     color: white;
     text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.59);
+}
+
+.hero-text-container{
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: 2%;
+}
+
+@media(max-width: 1140px){
+
+    .hero-text-container p{
+        font-size: 56px;
+    }
+
+    .hero-text-container{
+        margin-right: 0;
+        margin-right: 5%;
+    }
+
+    #hero-section-container{
+        max-height: 420px;
+    }
 }

@@ -1,13 +1,22 @@
 .cart-and-summary-container{
     padding: 120px 20px 0 20px;
     gap: 48px;
-    gap: 48px;
     display: flex;
     width: auto;
     color: white;
     justify-content: space-between;
     align-items: flex-start;
-    align-items: flex-start;
+}
+
+.cart-and-summary-mobile-container{
+    padding: 120px 20px 0 20px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 20px;
+    color: white;
+    text-align: center;
+    align-items: center;
 }
 
 .order-summary{
@@ -37,6 +46,7 @@
 .summary-item{
     display: flex;    
     justify-content: space-between;
+    gap: 8px;
 }
 
 .summary-item p{
@@ -50,7 +60,7 @@
     opacity: 1;
 }
 
-.order-summary button{
+.ptc-btn{
     all: unset;
     background-color: rgba(255, 255, 255, 0.2);
     padding: 8px 12px;
@@ -60,8 +70,24 @@
     transition: background-color 0.3s ease;
 }
 
-.order-summary button:hover{
+.ptc-btn-mobile{
+    all: unset;
+    background-color: #8C24C7;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-align: center;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+.ptc-btn:hover{
     background-color: #242424;
+}
+
+.ptc-btn-mobile:hover{
+    background-color: white;
+    color: #8C24C7;
+    border: 1px #8C24C7 solid; 
 }
 
 .cart-container{
@@ -133,10 +159,13 @@
 
 .tblBtn,
 .tblBtn:focus {
+    display: flex;
+    gap: 4px;
+    padding: 0;
     background-color: transparent;
     border: none;
     outline: none;
-    color: #ff0000;
+    color: white;
 }
 
 .cart-product-container{
@@ -162,14 +191,112 @@
 }
 
 #cart-item-quantity{
-    padding: 4px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 24px;
     text-align: center;
-    width: 80px;
-    border-radius: 4px;
+    max-width: 80px;
+    border: 2px white solid;
+    border-left: 0;
+    border-right: 0;
     margin: 0;
 }
 
 .empty-cart-container{
     padding: 120px 20px 0 20px;
     color: white;
+}
+
+.cart-product-mobile-container{
+    display: flex;
+    flex: 1;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #8C24C7;
+    text-align: left;
+}
+
+.cart-product-mobile-container p{
+    margin: 0;
+}
+
+
+#left-btn {
+    border: 2px white solid;
+    border-radius: 10px 0 0 10px;
+}
+
+
+#right-btn {
+    border: 2px white solid;
+    border-radius: 0 10px 10px 0;
+}
+
+#left-btn:hover, #right-btn:hover{
+    background-color: white;
+    color: #8C24C7;
+    border: 2px #8C24C7 solid;
+}
+
+.cart-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+
+@media (max-width: 900px) {
+    #cart-item-quantity{
+        padding: 4px 16px;
+    }
+
+    .cart-quantity-btn{
+        font-size: 18px;
+    }
+
+    .cart-and-summary-mobile-container {
+      align-items: flex-start; 
+      text-align: left;
+      gap: 10px;
+    }
+
+    .cart-container h3 {
+        display: inline-block;  /* So margin auto will work */
+        margin: 0 auto 20px auto;         /* Center horizontally */
+        width: auto;  
+    }
+  
+    /* Ensure the cart container (table or mobile layout) spans 100% minus parent padding */
+    .cart-container {
+      width: 100%;
+    }
+  
+    /* If you're using a separate mobile layout container for cart items */
+    .cart-product-mobile-container {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    /* Keep the button centered, but not full width */
+    .ptc-btn-mobile {
+      display: inline-block;  /* So margin auto will work */
+      margin: 0 auto;         /* Center horizontally */
+      width: auto;            /* Prevent full-width stretch */
+    }
+
+    .empty-cart-container h2{
+        text-align: center;
+    }
+}
+
+@media(max-width: 400px){
+    #cart-item-quantity{
+        padding: 4px 12px;
+    }
+
+    .cart-quantity-btn{
+        font-size: 16px;
+        padding: 4px 8px;
+    }
 }

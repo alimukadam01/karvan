@@ -26,7 +26,7 @@ function SendEmail() {
 
   return (
     <div className='email-container'>
-        <h2>Send us your feedback</h2>
+        <h4>Send us your feedback</h4>
         <p>
             Let us know what you think or even give us ideas on what you’d 
             want to see in our collections. In the end it’s all about you!

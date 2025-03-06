@@ -4,7 +4,7 @@
 
 #batch-display-container h1{
     margin: 0 0 10px;
-    font-size: 86px;
+    font-size: 64px;
     font-weight: 600;
     line-height: 1;
     color: white;
@@ -12,7 +12,7 @@
 
 #batch-display-container h2{
     margin: 0;
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 600;
     color: white;
 }
@@ -30,8 +30,23 @@
 }
 
 .batch-image img{
-    height: 600px;
+    height: 440px;
     width: auto;
     margin: 0 8px;
     border-radius: 10px;
+}
+
+@media(max-width: 900px) {
+    #batch-display-container h1{
+        font-size: 48px;
+    }
+
+    #batch-display-container h2{
+        font-size: 24px;
+    }
+    
+    .batch-image img{
+        height: 400px;
+    }
+
 }

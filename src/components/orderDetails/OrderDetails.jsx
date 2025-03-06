@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './OrderDetails.css'
+import { useMobileContext } from '../mobile-context/MobileContext'
 import { useNavigate, useLocation, redirect } from 'react-router-dom'
 import { fetchBuyerDetails, fetchCities, fetchOrderDetails, finalizeOrder } from '../../services/api'
 import { showErrorToast, showSuccessToast } from '../../services/utils'
@@ -16,8 +17,13 @@ function OrderDetails() {
 
   const navigate = useNavigate()
   const location = useLocation()
+  const isMobile = useMobileContext()
   const order_id = location.state.order_id || null
   const [order, setOrder] = useState(null)
+  const [detailsOpen, setDetailsOpen] = useState(false)
+  const openDetails = ()=>{
+    setDetailsOpen(!detailsOpen)
+  }  
   const [cities, setCities] = useState(null)
   const [email, setEmail] = useState(null)
   const [city, setCity] = useState()
@@ -108,7 +114,6 @@ function OrderDetails() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
     try{
       const is_finalized = await finalizeOrder(order_id, formData)
       if (is_finalized){
@@ -161,125 +166,258 @@ function OrderDetails() {
 
   return (
     <div className='order-details-checkout-container'>
-        <div className='order-details-container'>
-          <form>
-            <div className="form-section">
-              <div className='section-title'>
-                <h1>Personal Information</h1>
-              </div>
-
-              <div className="fields-container">
-                <input type='text' name="first_name" placeholder='First Name' value={formData.first_name} onChange={handleFieldChange}/>
-                <input type='text' name="last_name" placeholder='Last Name' value={formData.last_name} onChange={handleFieldChange}/>
-                <input type='text' name="email" placeholder='Email' value={formData.email} onChange={handleEmailChange}/>
-                <input type='text' name="phone" placeholder='Contact Number' value={formData.phone} onChange={handleFieldChange}/>
-              </div>
-            </div>
-            
-            <div className="form-section">
-              <div className='section-title'>
-                <h1>Delivery Information</h1>
-              </div>
-            
-              <input id='full-row-field' type='text' name="address" placeholder='Address' value={formData.address} onChange={handleFieldChange}/>
-            
-              <div className="fields-container">
-                <input type='text' name="apt_suite" placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
-                <div id='city-dropdown'>
-                  <select 
-                    name="city" 
-                    onChange={ handleCityChange }
-                    value={city?.name || null}
-                    required
-                  >
-                    <option key={''} value={null}>Select City</option>
-                    {cities?.map((obj, index)=>(
-                      <option key={obj.id} value={obj.name}>{obj.name}</option>
-                    ))}
-                  </select>
-                  <i className='fa-solid fa-caret-down'/>
-                </div>
-                <input type='text' name="alt_phone" placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange}/>
-                <input type='text' name="postal_code" placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange}/>
-              </div>
-            
-            </div>
-            
-            <div className="shipping-container">
-              <h4>Shipping</h4>
-              <div className="payment-button-selected">
-                <p>Standard Shipping</p>
-                <i className="fal fa-shipping-fast"/>
-              </div>
-            </div>
-
-            <div className="form-section">
-              <div className="section-title">
-                <h1>Payment</h1>
-              </div>
-
-              <div className={paymentMode === "Card"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
-                <p>Payment via Debit/Credit Card</p>
-                <i className="fa-solid fa-credit-card fa-xl" style={{"color": "#ffffff"}}/>
-              </div>
-              
-              <div className={paymentMode === "Cash"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
-                <p>Cash on Delivery</p>
-                <i className="fa-solid fa-money-bill fa-xl" style={{"color": "#ffffff"}}/>
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <div className="order-notes-checkout-container">
-          <div className="order-notes-component">
-            <h4>Want us to take special care of something?</h4>
-            <textarea 
-              name="notes"
-              rows={5} cols={20} 
-              placeholder='Drop in some order notes here!' 
-              value={formData.notes} 
-              onChange={ handleFieldChange }
-            />
-          </div>
-
-          <div className="checkout-container">
-            <h4>Order Summary</h4>
-            <div className="checkout-items">
-              {order?.items.map((item, index)=>(
-                <div key={item.id} className="checkout-product">
-                  <div className="checkout-product-image-details">
-                    <div className="checkout-product-image">
-                      <img src={item.product.images[0].image} alt="" />
+      {
+        isMobile? (
+          <>
+            <div className="checkout-container">
+              <button className = 'order-details-toggle' onClick={openDetails}>
+                <h4>Order Details</h4>
+                <i className={`fa-solid fa-angle-${detailsOpen? 'down': 'up'}`}/>
+              </button>
+              {detailsOpen? (
+                <div className="checkout-items">
+                  {order?.items.map((item, index)=>(
+                    <div key={item.id} className="checkout-product">
+                      <div className="checkout-product-image-details">
+                        <div className="checkout-product-image">
+                          <img src={item.product.images[0].image} alt="" />
+                        </div>
+                        <div className="checkout-product-details">
+                          <p>{item.product.name} x {item.quantity}</p>
+                          <p>{sizeMapping[item.size]}</p>
+                        </div>
+                      </div>
+                      <p>{item.product.price}</p>
                     </div>
-                    <div className="checkout-product-details">
-                      <p>{item.product.name} x {item.quantity}</p>
-                      <p>{sizeMapping[item.size]}</p>
+                  ))}
+            
+
+                  <div className="summary-item">
+                      <p>Shipping Cost</p>
+                      <p>{city? city.shipping_charges: '-'}</p>
+                  </div>
+
+                  <hr/>
+                  
+                  <div className="summary-item">
+                      <p>Grand Total</p>
+                      <p>PKR {order?.payment.amount + (city?.shipping_charges || 0)}</p>
+                  </div>
+                </div>
+              ): (<div></div>)}
+            </div>
+
+            <div className='order-details-container'>
+                <form>
+                  <div className="form-section">
+                    <div className='section-title'>
+                      <h3>Personal Information</h3>
+                    </div>
+
+                    <div className="fields-container">
+                      <input type='text' name="first_name" placeholder='First Name' value={formData.first_name} onChange={handleFieldChange}/>
+                      <input type='text' name="last_name" placeholder='Last Name' value={formData.last_name} onChange={handleFieldChange}/>
+                      <input type='text' name="email" placeholder='Email' value={formData.email} onChange={handleEmailChange}/>
+                      <input type='text' name="phone" placeholder='Contact Number' value={formData.phone} onChange={handleFieldChange}/>
                     </div>
                   </div>
-                  <p>{item.product.price}</p>
-                </div>
-              ))}
-        
+                  
+                  <div className="form-section">
+                    <div className='section-title'>
+                      <h3>Delivery Information</h3>
+                    </div>
+                  
+                    <input id='full-row-field' type='text' name="address" placeholder='Address' value={formData.address} onChange={handleFieldChange}/>
+                  
+                    <div className="fields-container">
+                      <input type='text' name="apt_suite" placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
+                      <div id='city-dropdown'>
+                        <select 
+                          name="city" 
+                          onChange={ handleCityChange }
+                          value={city?.name || null}
+                          required
+                        >
+                          <option key={''} value={null}>Select City</option>
+                          {cities?.map((obj, index)=>(
+                            <option id="city-dropdown" key={obj.id} value={obj.name}>{obj.name}</option>
+                          ))}
+                        </select>
+                        <i className='fa-solid fa-caret-down'/>
+                      </div>
+                      <input type='text' name="alt_phone" placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange}/>
+                      <input type='text' name="postal_code" placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange}/>
+                    </div>
+                  
+                  </div>
+                  
+                  <div className="shipping-container">
+                    <h4>Shipping</h4>
+                    <div className="payment-button-selected">
+                      <p>Standard Shipping</p>
+                      <i className="fal fa-shipping-fast"/>
+                    </div>
 
-              <div className="summary-item">
-                  <p>Shipping Cost</p>
-                  <p>{city? city.shipping_charges: '-'}</p>
-              </div>
+                    <div className="order-notes-component">
+                      <h4>Want us to take special care of something?</h4>
+                      <textarea 
+                        name="notes"
+                        rows={5} cols={20} 
+                        placeholder='Drop in some order notes here!' 
+                        value={formData.notes} 
+                        onChange={ handleFieldChange }
+                      />
+                    </div>
+                  </div>
 
-              <hr/>
-              
-              <div className="summary-item">
-                  <p>Grand Total</p>
-                  <p>PKR {order?.payment.amount + (city?.shipping_charges || 0)}</p>
-              </div>
+                  <div className="form-section">
+                    <div className="section-title">
+                      <h3>Payment</h3>
+                    </div>
+
+                    <div className={paymentMode === "Card"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
+                      <p>Payment via Debit/Credit Card</p>
+                      <i className="fa-solid fa-credit-card fa-xl" style={{"color": "#ffffff"}}/>
+                    </div>
+                    
+                    <div className={paymentMode === "Cash"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
+                      <p>Cash on Delivery</p>
+                      <i className="fa-solid fa-money-bill fa-xl" style={{"color": "#ffffff"}}/>
+                    </div>
+                  </div>
+                </form>
             </div>
-            
-            <button type='submit' onClick={ handleSubmit }>
+
+            <button className='confirm-btn' type='submit' onClick={ handleSubmit }>
               Confirm Order
             </button>
-          </div>
-        </div>
+
+          </>
+        ): (
+          <>
+            <div className='order-details-container'>
+              <form>
+                <div className="form-section">
+                  <div className='section-title'>
+                    <h1>Personal Information</h1>
+                  </div>
+
+                  <div className="fields-container">
+                    <input type='text' name="first_name" placeholder='First Name' value={formData.first_name} onChange={handleFieldChange}/>
+                    <input type='text' name="last_name" placeholder='Last Name' value={formData.last_name} onChange={handleFieldChange}/>
+                    <input type='text' name="email" placeholder='Email' value={formData.email} onChange={handleEmailChange}/>
+                    <input type='text' name="phone" placeholder='Contact Number' value={formData.phone} onChange={handleFieldChange}/>
+                  </div>
+                </div>
+                
+                <div className="form-section">
+                  <div className='section-title'>
+                    <h1>Delivery Information</h1>
+                  </div>
+                
+                  <input id='full-row-field' type='text' name="address" placeholder='Address' value={formData.address} onChange={handleFieldChange}/>
+                
+                  <div className="fields-container">
+                    <input type='text' name="apt_suite" placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
+                    <div id='city-dropdown'>
+                      <select 
+                        name="city" 
+                        onChange={ handleCityChange }
+                        value={city?.name || null}
+                        required
+                      >
+                        <option key={''} value={null}>Select City</option>
+                        {cities?.map((obj, index)=>(
+                          <option key={obj.id} value={obj.name}>{obj.name}</option>
+                        ))}
+                      </select>
+                      <i className='fa-solid fa-caret-down'/>
+                    </div>
+                    <input type='text' name="alt_phone" placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange}/>
+                    <input type='text' name="postal_code" placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange}/>
+                  </div>
+                
+                </div>
+                
+                <div className="shipping-container">
+                  <h4>Shipping</h4>
+                  <div className="payment-button-selected">
+                    <p>Standard Shipping</p>
+                    <i className="fal fa-shipping-fast"/>
+                  </div>
+                </div>
+
+                <div className="form-section">
+                  <div className="section-title">
+                    <h1>Payment</h1>
+                  </div>
+
+                  <div className={paymentMode === "Card"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
+                    <p>Payment via Debit/Credit Card</p>
+                    <i className="fa-solid fa-credit-card fa-xl" style={{"color": "#ffffff"}}/>
+                  </div>
+                  
+                  <div className={paymentMode === "Cash"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
+                    <p>Cash on Delivery</p>
+                    <i className="fa-solid fa-money-bill fa-xl" style={{"color": "#ffffff"}}/>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div className="order-notes-checkout-container">
+              <div className="order-notes-component">
+                <h4>Want us to take special care of something?</h4>
+                <textarea 
+                  name="notes"
+                  rows={5} cols={20} 
+                  placeholder='Drop in some order notes here!' 
+                  value={formData.notes} 
+                  onChange={ handleFieldChange }
+                />
+              </div>
+
+              <div className="checkout-container">
+                <h4>Order Summary</h4>
+                <div className="checkout-items">
+                  {order?.items.map((item, index)=>(
+                    <div key={item.id} className="checkout-product">
+                      <div className="checkout-product-image-details">
+                        <div className="checkout-product-image">
+                          <img src={item.product.images[0].image} alt="" />
+                        </div>
+                        <div className="checkout-product-details">
+                          <p>{item.product.name} x {item.quantity}</p>
+                          <p>{sizeMapping[item.size]}</p>
+                        </div>
+                      </div>
+                      <p>{item.product.price}</p>
+                    </div>
+                  ))}
+            
+
+                  <div className="summary-item">
+                      <p>Shipping Cost</p>
+                      <p>{city? city.shipping_charges: '-'}</p>
+                  </div>
+
+                  <hr/>
+                  
+                  <div className="summary-item">
+                      <p>Grand Total</p>
+                      <p>PKR {order?.payment.amount + (city?.shipping_charges || 0)}</p>
+                  </div>
+                </div>
+                
+                <button type='submit' onClick={ handleSubmit }>
+                  Confirm Order
+                </button>
+              </div>
+            </div>
+          </>
+        )
+
+      }
     </div>
   )
 }

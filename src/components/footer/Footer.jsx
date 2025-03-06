@@ -24,10 +24,14 @@ function Footer() {
                         <a href='privacy-policy'>Privacy Policy</a>
                     </div>
                 </div>
-                <div> 
-                    <h2>Thankyou for shopping with us!</h2>
-                    <p>we can't wait to see how you style your karvan favorites!</p>
-                </div>
+                { isMobile? (
+                    <div></div> 
+                    ): (
+                    <div>
+                        <h2>Thankyou for shopping with us!</h2>
+                        <p>we can't wait to see how you style your karvan favorites!</p>
+                    </div>
+                )}
             </div>
 
             <div className='footer-col-02'>
@@ -55,6 +59,13 @@ function Footer() {
                 </div>
             )}
         </div>
+
+        {isMobile?(
+            <div>
+                <h2>Thankyou for shopping with us!</h2>
+                <p>we can't wait to see how you style your karvan favorites!</p>
+            </div>
+        ): (<div></div>)}
     </div>
   )
 }
