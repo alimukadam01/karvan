@@ -104,7 +104,7 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
             <td>
                 <div className='cart-product-container'>
                     <div className="cart-product-image">
-                        <img src={cartItem.product.images[0]?.image}/>
+                        <img src={cartItem.product.images[0]?.image} alt='product-image'/>
                     </div>
                     <p>{cartItem.product.name}</p>
                 </div>
@@ -145,11 +145,8 @@ function Cart() {
     const [cart_id, setCartId] = useState(localStorage.getItem("cart_id"))
     const [cartItems, setCartItems] = useState([])
     const [subTotal, setSubTotal] = useState(0)
-    const [cartOpen, setCartOpen] = useState(window.innerWidth < 900)
     const isMobile = useMobileContext()
     const navigate = useNavigate()
-
-
 
     useEffect(()=>{
         const getCartItems = async (cart_id)=>{
@@ -206,7 +203,7 @@ function Cart() {
         setSubTotal(calcSubTotal(cartItems));
     }, [cartItems])
     
-    if (cartItems.length != 0){ return(
+    if (cartItems.length !== 0){ return(
         <div className={`cart-and-summary-${isMobile?'mobile-container': 'container'}`}>
             <div className="cart-container">
                 <h3>Items in your bag</h3>

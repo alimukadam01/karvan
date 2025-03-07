@@ -252,7 +252,7 @@ export const fetchBuyerDetails = async (email) =>{
 
 export const sendEmail = async (name, email, message) =>{
     try{
-        const res = await apiClient.post('email_user/', {
+        const res = await apiClient.post('email-user/', {
             "email": email,
             "name": name,
             "message": message

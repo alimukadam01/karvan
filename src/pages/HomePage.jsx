@@ -18,7 +18,7 @@ const HomePage = () => {
     }
 
     get_or_create_cart()
-  }, [])
+  })
 
   return (
     <div>

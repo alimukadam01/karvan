@@ -123,6 +123,7 @@ function ProductDetail() {
       setFade(false) // Fade in new review
     }, 300)
   }
+  
   const prevReview = ()=>{
     if (review_idx < 1) return
 
@@ -229,7 +230,7 @@ function ProductDetail() {
           <div className='mobile-sizes-opt-container'>
             <div className='size-title'>
               <h4>Select Size</h4>
-              <a href='#'>size chart</a>
+              <a href='/'>size chart</a>
             </div>
 
             <div className="sizes-container">
@@ -349,7 +350,7 @@ function ProductDetail() {
                 <div>
                   <div className='size-title'>
                     <h4>Select Size</h4>
-                    <a href='#'>size chart</a>
+                    <a href='/'>size chart</a>
                   </div>
 
                   <div className="sizes-container">

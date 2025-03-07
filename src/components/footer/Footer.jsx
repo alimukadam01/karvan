@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react'
+import { React } from 'react'
 import './Footer.css'
 import logoMono from '../assets/logo-mono.png'
 import SendEmail from '../sendEmail/SendEmail';

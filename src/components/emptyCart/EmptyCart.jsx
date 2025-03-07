@@ -13,7 +13,7 @@ function EmptyCart() {
     <div className='empty-cart-container'>
         <h2>Stil making up your mind?</h2>
         <div className='empty-cart-image-container'>
-            <img src={emptyCartImage}/>
+            <img src={emptyCartImage} alt='empty-cart-image'/>
         </div>
 
         <div>

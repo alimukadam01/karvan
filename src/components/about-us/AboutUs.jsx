@@ -1,11 +1,8 @@
 import React from 'react'
 import aboutus from '../assets/aboutus.png'
 import './AboutUs.css'
-import { useMobileContext } from '../mobile-context/MobileContext'
 
 function AboutUs() {
-
-  const isMobile =  useMobileContext()
 
   return (
     <div>
@@ -20,7 +17,7 @@ function AboutUs() {
             </h4>
         </div>
         <div className='about-us-image-container'>
-            <img className='about-us-image' src={aboutus} alt='/'/>
+            <img className='about-us-image' src={aboutus} alt='about-us-image'/>
         </div>
       </section>
     </div>

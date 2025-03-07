@@ -1,6 +1,5 @@
 import React from "react";
 import "./heroSection.css";
-import heroImage from "../assets/hero-bg.png";
 import { useMobileContext } from "../mobile-context/MobileContext";
 
 function HeroSection() {

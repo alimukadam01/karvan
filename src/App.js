@@ -1,5 +1,5 @@
 import './App.css';
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { useState, useEffect } from 'react';
 import "react-toastify/dist/ReactToastify.css";
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
@@ -25,7 +25,7 @@ function App() {
     }
 
     get_or_create_cart()
-  }, [])
+  })
 
   return (
       <BrowserRouter>

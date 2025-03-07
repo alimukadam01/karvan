@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './OrderDetails.css'
 import { useMobileContext } from '../mobile-context/MobileContext'
-import { useNavigate, useLocation, redirect } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { fetchBuyerDetails, fetchCities, fetchOrderDetails, finalizeOrder } from '../../services/api'
 import { showErrorToast, showSuccessToast } from '../../services/utils'
 
