@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://backend.shopkarvan.pk/"
+const BASE_URL = "https://backend.shopkarvan.pk/"
 const apiClient = axios.create({
     baseURL: BASE_URL,
     headers: {
