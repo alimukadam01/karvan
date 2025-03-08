@@ -72,8 +72,8 @@
 
 .checkout-product-details{
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
+    gap: 4px;
 }
 
 .checkout-product-image-details{
@@ -176,6 +176,7 @@
 .order-details-container select{
     all: unset;
     border-radius: 5px;
+    padding: 8px 12px;
     width: 100%;
     appearance: none;
 }
@@ -183,17 +184,15 @@
 #city-dropdown{
     border: 1.5px white solid;
     border-radius: 5px;
-    padding: 8px 12px;
-    flex: 1 1 calc(48% - 20px);
+    padding-right: 12px;
+    flex: 1 1 calc(51.5% - 20px);
     max-width: 480px;
     display: flex;
     align-items: center;
-    position: relative;
 }
 
 #city-dropdown option{
     color: black;
-    padding: 12px 10px;
     width: inherit;
 }
 

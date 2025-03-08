@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './OrderDetails.css'
+import { SyncLoader } from 'react-spinners' 
 import { useMobileContext } from '../mobile-context/MobileContext'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { fetchBuyerDetails, fetchCities, fetchOrderDetails, finalizeOrder } from '../../services/api'
@@ -9,6 +10,7 @@ function OrderDetails() {
 
   // ORDER ITEMS
   const sizeMapping = {
+    "X-Small": "XS", 
     "Small": "S",
     "Medium": "M",
     "Large": "L",
@@ -18,6 +20,7 @@ function OrderDetails() {
   const navigate = useNavigate()
   const location = useLocation()
   const isMobile = useMobileContext()
+  const [isLoading, setIsLoading] = useState(false) 
   const order_id = location.state.order_id || null
   const [order, setOrder] = useState(null)
   const [detailsOpen, setDetailsOpen] = useState(false)
@@ -27,7 +30,7 @@ function OrderDetails() {
   const [cities, setCities] = useState(null)
   const [email, setEmail] = useState(null)
   const [city, setCity] = useState()
-  const [paymentMode, setPaymentMode] = useState("Card")
+  const [paymentMode, setPaymentMode] = useState("Cash")
   const handlePaymentModeClick = ()=>{
     if (paymentMode === "Cash"){
       setPaymentMode("Card")
@@ -115,14 +118,18 @@ function OrderDetails() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
+      setIsLoading(true)
       const is_finalized = await finalizeOrder(order_id, formData)
       if (is_finalized){
+        setIsLoading(false)
         navigate("/")
         showSuccessToast("Order finalized! Your Karvan outfits are on their way!")
       }else{
+        setIsLoading(false)
         showErrorToast("Oops! Something went wrong. Please try again.")
       }
     }catch(error){
+      setIsLoading(false)
       console.log(error)
       showErrorToast("Oops! Something went wrong. Please try again.")
     }
@@ -172,7 +179,7 @@ function OrderDetails() {
             <div className="checkout-container">
               <button className = 'order-details-toggle' onClick={openDetails}>
                 <h4>Order Details</h4>
-                <i className={`fa-solid fa-angle-${detailsOpen? 'down': 'up'}`}/>
+                <i className={`fa-solid fa-caret-${detailsOpen? 'up': 'down'}`}/>
               </button>
               {detailsOpen? (
                 <div className="checkout-items">
@@ -240,13 +247,13 @@ function OrderDetails() {
                         >
                           <option key={''} value={null}>Select City</option>
                           {cities?.map((obj, index)=>(
-                            <option id="city-dropdown" key={obj.id} value={obj.name}>{obj.name}</option>
+                            <option key={obj.id} value={obj.name}>{obj.name}</option>
                           ))}
                         </select>
-                        <i className='fa-solid fa-caret-down'/>
+                        <i className='fa-solid fa-caret-down'/>                      
                       </div>
-                      <input type='text' name="alt_phone" placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange}/>
-                      <input type='text' name="postal_code" placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange}/>
+                      <input type='text' name="alt_phone" placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange} style={{"maxWidth": "unset"}}/>
+                      <input type='text' name="postal_code" placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange} style={{"maxWidth": "unset"}}/>
                     </div>
                   
                   </div>
@@ -255,7 +262,7 @@ function OrderDetails() {
                     <h4>Shipping</h4>
                     <div className="payment-button-selected">
                       <p>Standard Shipping</p>
-                      <i className="fal fa-shipping-fast"/>
+                      <i className="fa-solid fa-truck"/>
                     </div>
 
                     <div className="order-notes-component">
@@ -275,21 +282,21 @@ function OrderDetails() {
                       <h3>Payment</h3>
                     </div>
 
-                    <div className={paymentMode === "Card"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
+                    {/* <div className={paymentMode === "Card"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
                       <p>Payment via Debit/Credit Card</p>
-                      <i className="fa-solid fa-credit-card fa-xl" style={{"color": "#ffffff"}}/>
-                    </div>
+                      <i className="fa-solid fa-credit-card fa-lg" style={{"color": "#ffffff"}}/>
+                    </div> */}
                     
-                    <div className={paymentMode === "Cash"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
+                    <div className={paymentMode === "Cash"? "payment-button-selected": "payment-button"} /*onClick={ handlePaymentModeClick }*/>
                       <p>Cash on Delivery</p>
-                      <i className="fa-solid fa-money-bill fa-xl" style={{"color": "#ffffff"}}/>
+                      <i className="fa-solid fa-money-bill fa-lg" style={{"color": "#ffffff"}}/>
                     </div>
                   </div>
                 </form>
             </div>
 
             <button className='confirm-btn' type='submit' onClick={ handleSubmit }>
-              Confirm Order
+              { isLoading? <SyncLoader size={4} speedMultiplier={0.75} margin={2} color="white" /> : "Confirm Order" }
             </button>
 
           </>
@@ -343,7 +350,7 @@ function OrderDetails() {
                   <h4>Shipping</h4>
                   <div className="payment-button-selected">
                     <p>Standard Shipping</p>
-                    <i className="fal fa-shipping-fast"/>
+                    <i className="fa-solid fa-truck fa-lg"/>
                   </div>
                 </div>
 
@@ -352,14 +359,14 @@ function OrderDetails() {
                     <h1>Payment</h1>
                   </div>
 
-                  <div className={paymentMode === "Card"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
+                  {/* <div className={paymentMode === "Card"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
                     <p>Payment via Debit/Credit Card</p>
-                    <i className="fa-solid fa-credit-card fa-xl" style={{"color": "#ffffff"}}/>
-                  </div>
+                    <i className="fa-solid fa-credit-card fa-lg" style={{"color": "#ffffff"}}/>
+                  </div> */}
                   
-                  <div className={paymentMode === "Cash"? "payment-button-selected": "payment-button"} onClick={ handlePaymentModeClick }>
+                  <div className={paymentMode === "Cash"? "payment-button-selected": "payment-button"} /*onClick={ handlePaymentModeClick }*/>
                     <p>Cash on Delivery</p>
-                    <i className="fa-solid fa-money-bill fa-xl" style={{"color": "#ffffff"}}/>
+                    <i className="fa-solid fa-money-bill fa-lg" style={{"color": "#ffffff"}}/>
                   </div>
                 </div>
               </form>
@@ -410,7 +417,7 @@ function OrderDetails() {
                 </div>
                 
                 <button type='submit' onClick={ handleSubmit }>
-                  Confirm Order
+                  { isLoading? <SyncLoader size={4} speedMultiplier={0.75} margin={2} color="white" /> : "Confirm Order" }
                 </button>
               </div>
             </div>

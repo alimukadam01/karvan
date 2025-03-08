@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "poppins";
+  font: 16px;
 }
 
 code {
@@ -65,6 +66,10 @@ p {
 
 /* Responsive Styles for Mobile Screens */
 @media (max-width: 900px) {
+  body{
+    font-size: 14.4px;
+  }
+
   h1 {
     font-size: 2rem; /* 32px */
     margin: 0;

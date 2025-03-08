@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import EmptyCart from '../emptyCart/EmptyCart'; 
+import { useNavigate } from 'react-router-dom'
+import { SyncLoader } from 'react-spinners'
+import EmptyCart from '../emptyCart/EmptyCart' 
 import './Cart.css'
 import { fetchCartItems, deleteCartItem, initiateOrder, updateCartItemQuantity } from '../../services/api';
 import { showErrorToast } from '../../services/utils';
@@ -62,7 +63,7 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
         <div className="cart-product-mobile-container">
             <div className="checkout-product-image-details">
                 <div className="checkout-product-image">
-                    <img src={cartItem.product.images[0]?.image} alt="/" />
+                    <img src={cartItem.product?.images[0]?.image} alt="product-image" />
                 </div>
                 <div className="checkout-product-details" style={
                     {"align-items": "flex-start"}
@@ -104,7 +105,7 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
             <td>
                 <div className='cart-product-container'>
                     <div className="cart-product-image">
-                        <img src={cartItem.product.images[0]?.image} alt='product-image'/>
+                        <img src={cartItem.product?.images[0]?.image} alt='product-image'/>
                     </div>
                     <p>{cartItem.product.name}</p>
                 </div>
@@ -142,12 +143,14 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
 
 function Cart() {
 
-    const [cart_id, setCartId] = useState(localStorage.getItem("cart_id"))
+    const cart_id = localStorage.getItem("cart_id")
+    const [isLoading, setIsLoading] = useState(false)
     const [cartItems, setCartItems] = useState([])
     const [subTotal, setSubTotal] = useState(0)
     const isMobile = useMobileContext()
     const navigate = useNavigate()
 
+    // Fetch Cart Items. 
     useEffect(()=>{
         const getCartItems = async (cart_id)=>{
             try{
@@ -185,16 +188,22 @@ function Cart() {
 
     const checkout = async ()=>{
         try{
+            setIsLoading(true)
             const order_id = await initiateOrder(cart_id)
             if (order_id){
                 localStorage.removeItem("cart_id")
+                setIsLoading(false)
                 navigate('/checkout/', {
                     state: {
                         order_id: order_id
                     }
                 })
+            }else{
+                setIsLoading(false)
+                showErrorToast("Oops! We ran into an error. Please try again.")
             }
         }catch(error){
+            setIsLoading(false)
             console.log(error)
         }
     }
@@ -255,8 +264,8 @@ function Cart() {
                 className='ptc-btn-mobile' 
                 type='submit'
                 onClick={ checkout }
-                >
-                    Proceed to Checkout
+                >   
+                    { isLoading? <SyncLoader size={4} speedMultiplier={0.75} margin={2} color="#8C24C7" /> : "Proceed to Checkout" }
                 </button>
             ): (
                 <div className="order-summary">
@@ -283,7 +292,7 @@ function Cart() {
                         type='submit'
                         onClick={ checkout }
                     >
-                        Proceed to Checkout
+                        { isLoading? <SyncLoader size={4} speedMultiplier={0.75} margin={2} color="white" /> : "Proceed to Checkout" }
                     </button>
                 </div>
             )}
