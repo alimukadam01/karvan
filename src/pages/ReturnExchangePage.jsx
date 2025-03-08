@@ -36,7 +36,6 @@ function ReturnExchangePage() {
               </div>
           </div>
         </div>
-        <Footer/>
       </MobileContextProvider>
     </div>
   )

@@ -10,7 +10,6 @@ function ContactUsPage() {
       <MobileContextProvider>
         <Navbar/>
         <ContactUs/>
-        <Footer/>
       </MobileContextProvider>
     </div>
   )

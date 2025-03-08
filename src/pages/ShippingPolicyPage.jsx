@@ -28,7 +28,6 @@ function ShippingPolicyPage() {
               </ul>
           </div>
         </div>
-        <Footer/>
 
       </MobileContextProvider>
     </div>

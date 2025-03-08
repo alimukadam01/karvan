@@ -10,7 +10,6 @@ const ProductDetailPage = () => {
       <MobileContextProvider>
         <Navbar/>
         <ProductDetail/>
-        <Footer/>
       </MobileContextProvider>
     </div>
   )

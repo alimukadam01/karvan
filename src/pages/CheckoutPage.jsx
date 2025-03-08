@@ -10,7 +10,6 @@ const Checkout = () => {
       <MobileContextProvider>
         <Navbar/>
         <OrderDetails/>
-        <Footer/>
       </MobileContextProvider>
     </div>
   )

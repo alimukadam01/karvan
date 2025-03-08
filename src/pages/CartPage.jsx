@@ -10,7 +10,6 @@ const CartPage = () => {
       <MobileContextProvider>
         <Navbar/>
         <Cart/>
-        <Footer/>
       </MobileContextProvider>
     </div>
   )

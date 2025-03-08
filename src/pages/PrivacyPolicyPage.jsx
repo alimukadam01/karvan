@@ -35,7 +35,6 @@ function PrivacyPolicyPage() {
                 </ul>
             </div>
         </div>
-        <Footer/>
 
       </MobileContextProvider>
     </div>

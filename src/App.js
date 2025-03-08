@@ -12,10 +12,11 @@ import ReturnExchangePage from './pages/ReturnExchangePage';
 import ShippingPolicyPage from './pages/ShippingPolicyPage';
 import { createCart } from './services/api';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import Footer from './components/footer/Footer';
+import { MobileContextProvider } from './components/mobile-context/MobileContext';
 
 
 function App() {
-
   const [cart_id, setCartId] = useState(localStorage.getItem("cart_id"));
   useEffect(()=>{
     const get_or_create_cart = async ()=>{
@@ -28,20 +29,27 @@ function App() {
   })
 
   return (
+    <div className='app-container'>
       <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<HomePage/>}/>
-          <Route path='/products' element={<ProductDetailPage/>}/>
-          <Route path='/contact-us' element={<ContactUsPage/>}/>
-          <Route path='/cart' element={<CartPage/>}/>
-          <Route path='/checkout' element={<CheckoutPage/>}/>
-          <Route path='/return-exchange-policy' element={<ReturnExchangePage/>}/>
-          <Route path='/shipping-policy' element={<ShippingPolicyPage/>}/>
-          <Route path='/privacy-policy' element={<PrivacyPolicyPage/>}/>
-        </Routes>
+        <div className='content'>
+          <Routes>
+            <Route path='/' element={<HomePage/>}/>
+            <Route path='/products' element={<ProductDetailPage/>}/>
+            <Route path='/contact-us' element={<ContactUsPage/>}/>
+            <Route path='/cart' element={<CartPage/>}/>
+            <Route path='/checkout' element={<CheckoutPage/>}/>
+            <Route path='/return-exchange-policy' element={<ReturnExchangePage/>}/>
+            <Route path='/shipping-policy' element={<ShippingPolicyPage/>}/>
+            <Route path='/privacy-policy' element={<PrivacyPolicyPage/>}/>
+          </Routes>
+        </div>
         <ToastContainer/>
+        <MobileContextProvider>
+          <Footer/>
+        </MobileContextProvider>
       </BrowserRouter>
-  );
+    </div>
+  )
 }
 
 export default App;

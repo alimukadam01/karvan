@@ -279,7 +279,7 @@ function ProductDetail() {
 
           { product?.reviews?.length > 0 && (
             <div id="reviews" className='product-reviews-parent'>
-              <h3>Reviews</h3>
+              <h4>Product Reviews</h4>
               <hr/>
               <div className='product-reviews-container'>
                 <i className='fa-solid fa-caret-left fa-xl' onClick={prevReview}/>
@@ -399,14 +399,14 @@ function ProductDetail() {
             
               { product?.reviews?.length > 0 && (
                 <div id="reviews" className='product-reviews-parent'>
-                  <h3>Reviews</h3>
+                  <h4>Product Reviews</h4>
                   <hr/>
                   <div className='product-reviews-container'>
                     <i className='fa-solid fa-caret-left fa-xl' onClick={prevReview}/>
 
                     <div key={review_idx} className={`product-review ${fade ? `fade-out-${direction}` : "fade-in"}`}>
                       <div className="review-title">
-                        <h5>by {product?.reviews[review_idx]?.buyer?.first_name} {product?.reviews[review_idx]?.buyer?.last_name}</h5>
+                        <h6>by {product?.reviews[review_idx]?.buyer?.first_name} {product?.reviews[review_idx]?.buyer?.last_name}</h6>
                         <div className="product-rating">{renderStars(product?.reviews[review_idx]?.rating)}</div>
                       </div>
                       <div className="review-text">

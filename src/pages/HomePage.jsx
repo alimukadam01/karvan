@@ -27,7 +27,6 @@ const HomePage = () => {
         <HeroSection/>
         <AboutUs/>
         <BatchDisplay/>
-        <Footer/> 
       </MobileContextProvider>
     </div>
   )

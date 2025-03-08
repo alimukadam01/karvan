@@ -65,9 +65,10 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
                 <div className="checkout-product-image">
                     <img src={cartItem.product?.images[0]?.image} alt="product-image" />
                 </div>
-                <div className="checkout-product-details" style={
-                    {"align-items": "flex-start"}
-                }>
+                <div className="checkout-product-details" style={{
+                    "align-items": "flex-start",
+                    "justifyContent": "space-between"
+                }}>
                     <div>
                         <p>{cartItem.product.name} x {cartItem.quantity}</p>
                         <p>Size: {sizeMapping[cartItem.size]}</p>
@@ -87,7 +88,10 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
                     </div>
                 </div>
             </div>
-            <div className="checkout-product-details">
+            <div className="checkout-product-details" style={{
+                "align-items": "flex-start",
+                "justifyContent": "space-between"
+            }}>
                 <p>PKR {cartItem.product.price * quantity}</p>
                 <button 
                     type="button" 
