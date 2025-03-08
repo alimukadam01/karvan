@@ -1,10 +1,13 @@
 import React from 'react'
-import './SendEmail.css' 
+import './SendEmail.css'
+import { SyncLoader } from 'react-spinners' 
 import { useState } from 'react' 
 import { sendEmail } from '../../services/api'
 import { showErrorToast, showSuccessToast } from '../../services/utils'
 
 function SendEmail() {
+
+  const [isSending, setIsSending] = useState(false)
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,17 +25,20 @@ function SendEmail() {
 
   const handleSubmit = async (e) =>{
     e.preventDefault()
+    setIsSending(true)
     try{
-      console.log(formData)
       const { name, email, message } = formData  
       const is_sent = await sendEmail(name, email, message)
-
+      
       if (is_sent){
+        setIsSending(false)
         showSuccessToast("Email Sent Successfully!")
       }else{
+        setIsSending(false)
         showErrorToast("Oops! we ran into a problem. Please try again.")
       }
     }catch(error){
+      setIsSending(false)
       console.log(error)
       showErrorToast("Oops! we ran into a problem. Please try again.")
     }
@@ -50,7 +56,9 @@ function SendEmail() {
             <input type="text" name='name' placeholder='Name' value={formData.name} onChange={handleFieldChange} />
             <input type="text" name='email' placeholder='Email' value={formData.email} onChange={handleFieldChange} />
             <textarea name='message' rows={6} cols={30} type="text" placeholder='Suggest something!' value={formData.message} onChange={handleFieldChange} />
-            <button type='submit'>Submit Feedback</button>
+            <button type='submit'>
+              { isSending? <SyncLoader size={4} speedMultiplier={0.75} margin={2} color="white" /> : "Submit Feedback" }
+            </button>
         </form>
     </div>
   )
