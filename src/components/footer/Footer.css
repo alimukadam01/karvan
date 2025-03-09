@@ -68,6 +68,11 @@
     color: #242424
 }
 
+.footer-links button{
+    all: unset;
+    text-decoration: none;
+}
+
 .footer-col-02{
     max-width: 350px;
 }

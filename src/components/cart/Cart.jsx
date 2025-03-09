@@ -98,7 +98,9 @@ function CartItem({cartItem, cart_id, onDelete, onQuantityChange}) {
                     className="tblBtn"
                     onClick={ deleteItem }
                 >
-                    <i className="fa fa-trash" aria-hidden="true"></i>
+                    <i className="fa fa-trash" aria-hidden="true" style={{
+                        "lineHeight": "none"
+                    }}></i>
                     <p>remove</p>
                 </button>
             </div>

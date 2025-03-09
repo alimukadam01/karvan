@@ -44,3 +44,9 @@ export const handleScrollNavigate = (target, location, navigate, setMenuOpen = n
     })
   }, 100)
 }
+
+export const resetScroll = () => {
+  if(window.pageYOffset !== 0){
+    window.scrollTo(0, 0)
+  }
+}
