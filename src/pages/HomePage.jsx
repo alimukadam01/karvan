@@ -4,7 +4,6 @@ import Navbar from '../components/navbar/Navbar';
 import HeroSection from '../components/heroSection/heroSection';
 import AboutUs from '../components/about-us/AboutUs'
 import BatchDisplay from '../components/batchDisplay/BatchDisplay';
-import Footer from '../components/footer/Footer';
 import { MobileContextProvider } from '../components/mobile-context/MobileContext';
 
 const HomePage = () => {

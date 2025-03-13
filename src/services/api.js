@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "https://backend.shopkarvan.pk/"
-// const BASE_URL = "http://127.0.0.1:8000/"
+// const BASE_URL = "https://backend.shopkarvan.pk/"
+const BASE_URL = "http://127.0.0.1:8000/"
 const apiClient = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -143,14 +143,15 @@ export const initiateOrder = async (cart_id) =>{
         const res = await apiClient.post(
             `cart/${cart_id}/initiate_order/`, {}
         )
-
+        console.log("API  hit!")
         if (res.status === 200){
             return res.data.id
         }
         
         return null
-        
-        
+
+
+                
     }catch(error){
         console.log(error)
         return null

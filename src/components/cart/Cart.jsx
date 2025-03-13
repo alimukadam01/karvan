@@ -295,7 +295,7 @@ function Cart() {
                     </div>
                     <button
                         className='ptc-btn'
-                        type='submit'
+                        type='button'
                         onClick={ checkout }
                     >
                         { isLoading? <SyncLoader size={4} speedMultiplier={0.75} margin={2} color="white" /> : "Proceed to Checkout" }
