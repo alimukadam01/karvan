@@ -1,0 +1,106 @@
+.review-content-container{
+    display: flex;
+    justify-content: center;
+}
+
+.review-form-container{
+    display: flex;
+    flex-direction: column;
+    padding-top: 100px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    max-width: 60%;
+    gap: 20px;
+}
+
+.product-review-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 60%;
+}
+
+.review-product-image-container{
+    max-width: 225px;
+    max-height: 400px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+}
+
+.review-product-image-container img{
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+}
+
+.review-component{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.review-stars{
+    display: flex;
+}
+
+.review-stars i{
+    margin: 0 2px;
+}
+
+.review-text-component{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 5px;
+    width: 100%;
+    background-color: #8C24C7;
+    padding: 8px 12px;
+}
+
+.review-text-component textarea{
+    all: unset;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.review-text-component textarea::placeholder{
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+}
+
+.thankyou-content-container button,
+.review-form-container button{
+    all: unset;
+    background-color: #8C24C7;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-align: center;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+    min-width: 136px;
+}
+
+.thankyou-content-container button:hover,
+.review-form-container button:hover{
+    background-color: white;
+    border: #8C24C7 1.5px solid;
+    color: #8C24C7;
+    box-sizing: border-box;
+}
+
+.thankyou-content-container{
+    display: flex;
+    flex-direction: column;
+    max-width: 560px;
+    gap: 20px;
+    align-items: center;
+}

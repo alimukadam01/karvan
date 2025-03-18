@@ -5,6 +5,7 @@ import { useMobileContext } from '../mobile-context/MobileContext'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { fetchBuyerDetails, fetchCities, fetchOrderDetails, finalizeOrder } from '../../services/api'
 import { showErrorToast, showSuccessToast } from '../../services/utils'
+import { toast } from 'react-toastify'
 
 function OrderDetails() {
 
@@ -47,7 +48,7 @@ function OrderDetails() {
     setCity(selectedCity)
     setFormData((prevFormData) => ({
       ...prevFormData,
-      city_id: selectedCity.id,
+      city_id: selectedCity? selectedCity.id: null,
     }))
   }
 
@@ -92,6 +93,7 @@ function OrderDetails() {
     postal_code: "",
     notes: ""
   })
+  const [errors, setErrors] = useState([])
 
   const handleFieldChange = (e)=>{
     const { name, value } = e.target;
@@ -115,23 +117,41 @@ function OrderDetails() {
     })
   }
 
+  const validateForm = () =>{
+    let newErrors = {};
+
+    if (!formData.first_name.trim()) newErrors.first_name = "First name is required"
+    if (!formData.last_name.trim()) newErrors.last_name = "Last name is required"
+    if (!/^\d{11}$/.test(formData.phone)) newErrors.phone = "Phone number must be atleast 11 digits"
+    if (!formData.address.trim()) newErrors.address = "Address is required"
+    if (!/^\d{5}$/.test(formData.postal_code)) newErrors.postal_code = "Postal code must be 5 digits"
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      setIsLoading(true)
-      const is_finalized = await finalizeOrder(order_id, formData)
-      if (is_finalized){
+
+    if (validateForm()){
+      try{
+        setIsLoading(true)
+        const is_finalized = await finalizeOrder(order_id, formData)
+        if (is_finalized){
+          setIsLoading(false)
+          navigate("/")
+          showSuccessToast("Order finalized! Your Karvan outfits are on their way!")
+        }else{
+          setIsLoading(false)
+          showErrorToast("Oops! Something went wrong. Please try again.")
+        }
+      }catch(error){
         setIsLoading(false)
-        navigate("/")
-        showSuccessToast("Order finalized! Your Karvan outfits are on their way!")
-      }else{
-        setIsLoading(false)
+        console.log(error)
         showErrorToast("Oops! Something went wrong. Please try again.")
       }
-    }catch(error){
-      setIsLoading(false)
-      console.log(error)
-      showErrorToast("Oops! Something went wrong. Please try again.")
+    }else{
+      showErrorToast("Oops, you missed a spot! Please fill in the required fields.")
     }
   }
   
@@ -222,10 +242,10 @@ function OrderDetails() {
                     </div>
 
                     <div className="fields-container">
-                      <input type='text' name="first_name" placeholder='First Name' value={formData.first_name} onChange={handleFieldChange}/>
-                      <input type='text' name="last_name" placeholder='Last Name' value={formData.last_name} onChange={handleFieldChange}/>
-                      <input type='text' name="email" placeholder='Email' value={formData.email} onChange={handleEmailChange}/>
-                      <input type='text' name="phone" placeholder='Contact Number' value={formData.phone} onChange={handleFieldChange}/>
+                      <input type='text' name="first_name" placeholder='First Name*' value={formData.first_name} onChange={handleFieldChange}/>
+                      <input type='text' name="last_name" placeholder='Last Name (Optional)' value={formData.last_name} onChange={handleFieldChange}/>
+                      <input type='text' name="email" placeholder='Email*' value={formData.email} onChange={handleEmailChange}/>
+                      <input type='text' name="phone" placeholder='Contact Number*' value={formData.phone} onChange={handleFieldChange}/>
                     </div>
                   </div>
                   
@@ -234,10 +254,10 @@ function OrderDetails() {
                       <h3>Delivery Information</h3>
                     </div>
                   
-                    <input id='full-row-field' type='text' name="address" placeholder='Address' value={formData.address} onChange={handleFieldChange}/>
+                    <input id='full-row-field' type='text' name="address" placeholder='Address*' value={formData.address} onChange={handleFieldChange}/>
                   
                     <div className="fields-container">
-                      <input type='text' name="apt_suite" placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
+                      <input type='text' name="apt_suite" placeholder='Apartment/Suite (Optional)' value={formData.apt_suite} onChange={handleFieldChange}/>
                       <div id='city-dropdown'>
                         <select 
                           name="city" 
@@ -245,15 +265,15 @@ function OrderDetails() {
                           value={city?.name || null}
                           required
                         >
-                          <option key={''} value={null}>Select City</option>
+                          <option key={''} value={null}>Select City*</option>
                           {cities?.map((obj, index)=>(
                             <option key={obj.id} value={obj.name}>{obj.name}</option>
                           ))}
                         </select>
                         <i className='fa-solid fa-caret-down'/>                      
                       </div>
-                      <input type='text' name="alt_phone" placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange} style={{"maxWidth": "unset"}}/>
-                      <input type='text' name="postal_code" placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange} style={{"maxWidth": "unset"}}/>
+                      <input type='text' name="alt_phone" placeholder='Alt. Phone Number' value={formData.alt_phone} onChange={handleFieldChange} style={{"maxWidth": "unset"}}/>
+                      <input type='text' name="postal_code" placeholder='Postal Code' value={formData.postal_code} onChange={handleFieldChange} style={{"maxWidth": "unset"}}/>
                     </div>
                   
                   </div>
@@ -310,10 +330,10 @@ function OrderDetails() {
                   </div>
 
                   <div className="fields-container">
-                    <input type='text' name="first_name" placeholder='First Name' value={formData.first_name} onChange={handleFieldChange}/>
-                    <input type='text' name="last_name" placeholder='Last Name' value={formData.last_name} onChange={handleFieldChange}/>
-                    <input type='text' name="email" placeholder='Email' value={formData.email} onChange={handleEmailChange}/>
-                    <input type='text' name="phone" placeholder='Contact Number' value={formData.phone} onChange={handleFieldChange}/>
+                    <input type='text' name="first_name" placeholder='First Name*' value={formData.first_name} onChange={handleFieldChange}/>
+                    <input type='text' name="last_name" placeholder='Last Name (Optional)' value={formData.last_name} onChange={handleFieldChange}/>
+                    <input type='text' name="email" placeholder='Email*' value={formData.email} onChange={handleEmailChange}/>
+                    <input type='text' name="phone" placeholder='Contact Number*' value={formData.phone} onChange={handleFieldChange}/>
                   </div>
                 </div>
                 
@@ -322,10 +342,10 @@ function OrderDetails() {
                     <h1>Delivery Information</h1>
                   </div>
                 
-                  <input id='full-row-field' type='text' name="address" placeholder='Address' value={formData.address} onChange={handleFieldChange}/>
+                  <input id='full-row-field' type='text' name="address" placeholder='Address*' value={formData.address} onChange={handleFieldChange}/>
                 
                   <div className="fields-container">
-                    <input type='text' name="apt_suite" placeholder='Apartment/Suite' value={formData.apt_suite} onChange={handleFieldChange}/>
+                    <input type='text' name="apt_suite" placeholder='Apartment/Suite (Optional)' value={formData.apt_suite} onChange={handleFieldChange}/>
                     <div id='city-dropdown'>
                       <select 
                         name="city" 
@@ -333,7 +353,7 @@ function OrderDetails() {
                         value={city?.name || null}
                         required
                       >
-                        <option key={''} value={null}>Select City</option>
+                        <option key={''} value={null}>Select City*</option>
                         {cities?.map((obj, index)=>(
                           <option key={obj.id} value={obj.name}>{obj.name}</option>
                         ))}

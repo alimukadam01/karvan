@@ -1,7 +1,8 @@
 import axios from "axios";
 
-// const BASE_URL = "https://backend.shopkarvan.pk/"
 const BASE_URL = "http://127.0.0.1:8000/"
+// const BASE_URL = "https://backend.shopkarvan.pk/"
+
 const apiClient = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -9,6 +10,14 @@ const apiClient = axios.create({
     },
     timeout: 30000
 })
+
+const sizeMapping = {
+    "X-Small": "XS",    
+    "Small": "S",
+    "Medium": "M",
+    "Large": "L",
+    "X-Large": "XL"
+}
 
 export const login = async (email, password) => {
     const res = await apiClient.post("/auth/jwt/create/", {
@@ -30,14 +39,6 @@ export const fetchBatchList = async ()=>{
     }catch (error){
         console.log(error)
     }
-};
-
-const sizeMapping = {
-    "X-Small": "XS",    
-    "Small": "S",
-    "Medium": "M",
-    "Large": "L",
-    "X-Large": "XL"
 };
 
 export const fetchProductsList = async (batch_id)=>{
@@ -258,6 +259,22 @@ export const sendEmail = async (name, email, message) =>{
             "email": email,
             "name": name,
             "message": message
+        })
+        if (res.status === 200){
+            return true
+        }else{
+            return false
+        }
+    }catch(error){
+        console.log(error)
+        return false
+    }
+}
+
+export const reviewOrder = async (order_id ,reviews) =>{
+    try{
+        const res = await apiClient.post(`orders/${order_id}/review/`, {
+            "reviews": reviews
         })
         if (res.status === 200){
             return true

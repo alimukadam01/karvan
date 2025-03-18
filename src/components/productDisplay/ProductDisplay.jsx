@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchProductsList } from '../../services/api';
 import { addToCart } from '../../services/api';
 import { showErrorToast, showSuccessToast } from '../../services/utils';
+import { SyncLoader } from 'react-spinners';
 
 function Product({product}) {
     const sizeMapping = {
@@ -14,6 +15,8 @@ function Product({product}) {
         "L": "Large",
         "XL": "X-Large"
     }
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const [size, setSize] = useState(product?.sizes[0].size);
     const selectSize = (size) =>{
@@ -32,14 +35,18 @@ function Product({product}) {
 
     const handleAtcClick = async ()=>{
         try{
+            setIsLoading(true)
             const is_added = await addToCart(product.batch, product.id, cart_id, 1, sizeMapping[size])
             if (is_added){
+                setIsLoading(false)
                 navigate('/')
                 showSuccessToast("Item added to Cart")
             }else{
+                setIsLoading(false)
                 showErrorToast("Oops! we ran into an error. Please try again.")
             }
         }catch(error){
+            setIsLoading(false)
             showErrorToast("Oops! we ran into an error. Please try again.")
             console.log(error)
         }
@@ -62,7 +69,9 @@ function Product({product}) {
 
                 <div className='product-details-pricing'>
                     <h3>PKR {product.price}</h3>
-                    <a onClick={ handleAtcClick }>add to cart</a>
+                    <a onClick={ handleAtcClick }> 
+                    { isLoading? <SyncLoader size={4} speedMultiplier={0.75} margin={2} color="#8C24C7" /> : "add to cart" }
+                    </a>
                 </div>
             </div>
         </div>

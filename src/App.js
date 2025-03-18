@@ -14,6 +14,7 @@ import { createCart } from './services/api';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import Footer from './components/footer/Footer';
 import { MobileContextProvider } from './components/mobile-context/MobileContext';
+import ReviewPage from './pages/ReviewPage';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Route path='/return-exchange-policy' element={<ReturnExchangePage/>}/>
             <Route path='/shipping-policy' element={<ShippingPolicyPage/>}/>
             <Route path='/privacy-policy' element={<PrivacyPolicyPage/>}/>
+            <Route path='/review/:order_id/' element={<ReviewPage/>}/>
           </Routes>
         </div>
         <ToastContainer/>
