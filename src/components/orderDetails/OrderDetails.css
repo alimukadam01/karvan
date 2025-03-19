@@ -171,6 +171,10 @@
     display: flex;
 }
 
+.input-error{
+    border: 1.5px #F2CD66 solid !important;
+}
+
 .order-details-container select{
     all: unset;
     border-radius: 5px;
@@ -233,7 +237,7 @@
     width: inherit;
     transition: background-color 0.3s ease;
     box-sizing: border-box;
-}    
+}
 
 @media(max-width: 900px){
     .order-details-checkout-container{

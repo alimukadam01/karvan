@@ -94,6 +94,7 @@ function OrderDetails() {
     notes: ""
   })
   const [errors, setErrors] = useState([])
+  const keyExists = (key) => key in errors
 
   const handleFieldChange = (e)=>{
     const { name, value } = e.target;
@@ -118,15 +119,22 @@ function OrderDetails() {
   }
 
   const validateForm = () =>{
-    let newErrors = {};
+    let newErrors = {}
 
     if (!formData.first_name.trim()) newErrors.first_name = "First name is required"
     if (!formData.last_name.trim()) newErrors.last_name = "Last name is required"
-    if (!/^\d{11}$/.test(formData.phone)) newErrors.phone = "Phone number must be atleast 11 digits"
+    if (!formData.phone) newErrors.phone = "Contact Number is required"
+    if (formData.phone){
+      if (!/^\d{11}$/.test(formData.phone)) newErrors.phone = "Phone number must be atleast 11 digits"
+    }
     if (!formData.address.trim()) newErrors.address = "Address is required"
-    if (!/^\d{5}$/.test(formData.postal_code)) newErrors.postal_code = "Postal code must be 5 digits"
-
-    setErrors(newErrors);
+    if (!formData.email) newErrors.email = "Email is required"
+    if (!validateEmail(formData.email)) newErrors.email = "Please provide a valid email"
+    if (formData.alt_phone){
+      if (!/^\d{11}$/.test(formData.alt_phone)) newErrors.alt_phone = "Phone number must be atleast 11 digits"
+    }
+    
+    setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
@@ -151,7 +159,7 @@ function OrderDetails() {
         showErrorToast("Oops! Something went wrong. Please try again.")
       }
     }else{
-      showErrorToast("Oops, you missed a spot! Please fill in the required fields.")
+      showErrorToast("Oops, you missed a spot! Please check the highlighted fields.")
     }
   }
   
@@ -242,10 +250,10 @@ function OrderDetails() {
                     </div>
 
                     <div className="fields-container">
-                      <input type='text' name="first_name" placeholder='First Name*' value={formData.first_name} onChange={handleFieldChange}/>
+                      <input type='text' name="first_name" className={keyExists("first_name")? "input-error": ""} placeholder={keyExists("first_name")? errors["first_name"]: "First Name*"} value={formData.first_name} onChange={handleFieldChange}/>
                       <input type='text' name="last_name" placeholder='Last Name (Optional)' value={formData.last_name} onChange={handleFieldChange}/>
-                      <input type='text' name="email" placeholder='Email*' value={formData.email} onChange={handleEmailChange}/>
-                      <input type='text' name="phone" placeholder='Contact Number*' value={formData.phone} onChange={handleFieldChange}/>
+                      <input type='text' name="email" className={keyExists("email")? "input-error": ""} placeholder={keyExists("email")? errors["email"]: "Email*"} value={formData.email} onChange={handleEmailChange}/>
+                      <input type='text' name="phone" className={keyExists("phone")? "input-error": ""} placeholder={keyExists("phone")? errors["phone"]: "Contact Number*"} value={formData.phone} onChange={handleFieldChange}/>
                     </div>
                   </div>
                   
@@ -254,7 +262,7 @@ function OrderDetails() {
                       <h3>Delivery Information</h3>
                     </div>
                   
-                    <input id='full-row-field' type='text' name="address" placeholder='Address*' value={formData.address} onChange={handleFieldChange}/>
+                    <input id='full-row-field' type='text' name="address" className={keyExists("address")? "input-error": ""} placeholder={keyExists("address")? errors["address"]: "Address*"} value={formData.address} onChange={handleFieldChange}/>
                   
                     <div className="fields-container">
                       <input type='text' name="apt_suite" placeholder='Apartment/Suite (Optional)' value={formData.apt_suite} onChange={handleFieldChange}/>
@@ -272,7 +280,7 @@ function OrderDetails() {
                         </select>
                         <i className='fa-solid fa-caret-down'/>                      
                       </div>
-                      <input type='text' name="alt_phone" placeholder='Alt. Phone Number' value={formData.alt_phone} onChange={handleFieldChange} style={{"maxWidth": "unset"}}/>
+                      <input type='text' name="alt_phone" className={keyExists("alt_phone")? "input-error": ""} placeholder={keyExists("alt_phone")? errors["alt_phone"]: "Alt. Phone Number (Optional)"} value={formData.alt_phone} onChange={handleFieldChange} style={{"maxWidth": "unset"}}/>
                       <input type='text' name="postal_code" placeholder='Postal Code' value={formData.postal_code} onChange={handleFieldChange} style={{"maxWidth": "unset"}}/>
                     </div>
                   
@@ -330,10 +338,10 @@ function OrderDetails() {
                   </div>
 
                   <div className="fields-container">
-                    <input type='text' name="first_name" placeholder='First Name*' value={formData.first_name} onChange={handleFieldChange}/>
+                    <input type='text' name="first_name" className={keyExists("first_name")? "input-error": ""} placeholder={keyExists("first_name")? errors["first_name"]: "First Name*"} value={formData.first_name} onChange={handleFieldChange}/>
                     <input type='text' name="last_name" placeholder='Last Name (Optional)' value={formData.last_name} onChange={handleFieldChange}/>
-                    <input type='text' name="email" placeholder='Email*' value={formData.email} onChange={handleEmailChange}/>
-                    <input type='text' name="phone" placeholder='Contact Number*' value={formData.phone} onChange={handleFieldChange}/>
+                    <input type='text' name="email" className={keyExists("email")? "input-error": ""} placeholder={keyExists("email")? errors["email"]: "Email*"} value={formData.email} onChange={handleEmailChange}/>
+                    <input type='text' name="phone" className={keyExists("phone")? "input-error": ""} placeholder={keyExists("phone")? errors["phone"]: "Contact Number*"} value={formData.phone} onChange={handleFieldChange}/>
                   </div>
                 </div>
                 
@@ -342,7 +350,7 @@ function OrderDetails() {
                     <h1>Delivery Information</h1>
                   </div>
                 
-                  <input id='full-row-field' type='text' name="address" placeholder='Address*' value={formData.address} onChange={handleFieldChange}/>
+                  <input id='full-row-field' type='text' name="address" className={keyExists("address")? "input-error": ""} placeholder={keyExists("address")? errors["address"]: "Address*"} value={formData.address} onChange={handleFieldChange}/>
                 
                   <div className="fields-container">
                     <input type='text' name="apt_suite" placeholder='Apartment/Suite (Optional)' value={formData.apt_suite} onChange={handleFieldChange}/>
@@ -360,7 +368,7 @@ function OrderDetails() {
                       </select>
                       <i className='fa-solid fa-caret-down'/>
                     </div>
-                    <input type='text' name="alt_phone" placeholder='Alt. Phone Number (Optional)' value={formData.alt_phone} onChange={handleFieldChange}/>
+                    <input type='text' name="alt_phone" className={keyExists("alt_phone")? "input-error": ""} placeholder={keyExists("alt_phone")? errors["alt_phone"]: "Alt. Phone Number (Optional)"} value={formData.alt_phone} onChange={handleFieldChange}/>
                     <input type='text' name="postal_code" placeholder='Postal Code (Optional)' value={formData.postal_code} onChange={handleFieldChange}/>
                   </div>
                 
