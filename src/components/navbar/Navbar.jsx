@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Navbar.css'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useMobileContext } from '../mobile-context/MobileContext'
-import {Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { handleScrollNavigate } from '../../services/utils'
 import logo from '../assets/logo.png'
 

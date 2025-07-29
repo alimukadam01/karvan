@@ -226,7 +226,7 @@ export const finalizeOrder = async (order_id, data) =>{
 
 export const fetchBuyerDetails = async (email) =>{
     try{
-        const access = await login("mukadamali20@hotmail.com", "admin123")
+        const access = await login("admin@shopkarvan.pk", "time2WorkBitches!")
 
         if (access){
             

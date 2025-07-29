@@ -26,7 +26,7 @@ function ProductDetail() {
     "reviews": []
   })
 
-  const options = product.sizes
+  const options = product?.sizes
   const [size, setSize] = useState(null);
   const selectSize = (size) =>{
     setSize(size);
@@ -55,11 +55,11 @@ function ProductDetail() {
   // updates sizes and image states
   useEffect(()=>{
     const updateSizeImage = ()=>{
-      if (product.sizes.length > 0 && size === null){
+      if (product && product.sizes.length > 0 && size === null){
         setSize(product.sizes[0].size)
       }
       
-      if (product.images.length > 0 && image === null){
+      if (product && product.images.length > 0 && image === null){
         setImage(product.images[0].image)
       }
     }
@@ -113,25 +113,23 @@ function ProductDetail() {
   const [fade, setFade] = useState(false)
   const [direction, setDirection] = useState()
   const nextReview = ()=>{
-    if (review_idx > product?.reviews.length - 2) return
     setDirection("right")
     setFade(true) // Start fade-out
     setTimeout(() => {
       setReviewIdx((prevIdx) =>
-        prevIdx < product?.reviews.length - 1 ? prevIdx + 1 : prevIdx
+        prevIdx < product?.reviews.length - 1 ? prevIdx + 1 : 0
       );
       setFade(false) // Fade in new review
     }, 300)
   }
   
   const prevReview = ()=>{
-    if (review_idx < 1) return
 
     setDirection("left")
     setFade(true)
     setTimeout(() => {
       setReviewIdx((prevIdx) =>
-        prevIdx > 0 ? prevIdx - 1: prevIdx
+        prevIdx > 0 ? prevIdx - 1: product?.reviews.length - 1
       )
       setFade(false)
     }, 300)
@@ -170,7 +168,7 @@ function ProductDetail() {
 
     return stars;
   }
-  
+
   return (
     <div>
       { isMobile? (
@@ -304,7 +302,7 @@ function ProductDetail() {
         <div className='container-fluid product-detail-container'>
           <div className="left-section">
             <div className='product-images-carousel'>
-              {product.images.map((selectedImage, index)=>(
+              {product && product.images.map((selectedImage, index)=>(
                 <div className={`carousel-image ${selectedImage.image === image ? "selected" : ""}`}>
                   <img key={selectedImage.id}
                     onClick={()=>selectImage(selectedImage.image)} 
@@ -323,14 +321,14 @@ function ProductDetail() {
             <div className='product-detail'>
               <div className='title-container'>
                 <div className='product-title'>
-                  <p>From BATCH-00{ product.batch }</p>
-                  <h3>{ product.name? product.name.toUpperCase(): "" }</h3>
+                  <p>From BATCH-00{ product?.batch }</p>
+                  <h3>{ product && product.name? product.name.toUpperCase(): "" }</h3>
                 </div>
             
                 <div className='product-rating'>
-                  {renderStars(product.rating, "product-title")}
+                  {renderStars(product?.rating, "product-title")}
                   <button onClick={ scrollToReviews }>
-                    <p> { product.reviews.length } Reviews </p>
+                    <p> { product?.reviews.length } Reviews </p>
                   </button>
                 </div>
               </div>
@@ -338,12 +336,12 @@ function ProductDetail() {
               <hr/>
             
               <div className='product-description'>
-                { product.desc }
+                { product?.desc }
               </div>
               
-              <h3 id='price-tag'>PKR { product.price }</h3>
+              <h3 id='price-tag'>PKR { product?.price }</h3>
               <p>
-                {`${ product.is_available ? "In Stock": "Out of Stock" }`}
+                {`${ product?.is_available ? "In Stock": "Out of Stock" }`}
               </p>
               
               <div className="size-quantity-purchase-container">
@@ -354,7 +352,7 @@ function ProductDetail() {
                   </div>
 
                   <div className="sizes-container">
-                    { options.map((option, index)=>(
+                    { options?.map((option, index)=>(
                       <button 
                         key={ index }
                         className={`size-button ${option.size === size ? "selected" : ""}`}
